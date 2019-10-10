@@ -8,5 +8,6 @@ public enum Tipo {
 	LEP,
 	RADAR,
 	SIGMA,
+	INFRAESTRUTURA,
 	OUTROS;
 }
