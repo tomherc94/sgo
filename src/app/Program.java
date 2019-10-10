@@ -8,14 +8,22 @@ import model.entities.enums.PostoGrad;
 public class Program {
 
 	public static void main(String[] args) {
-		
+
 		SupervisorDao supervisorDao = DaoFactory.createSupervisorDao();
-		
-		System.out.println("\n=== TEST 1: supervisor insert ===");
-		Supervisor newSupervisor = new Supervisor(null,"Greg", "3456776", PostoGrad.G3S, "11932334455", "gregds", "1234567");
+
+		System.out.println("=== TEST 1: supervisor findById ===");
+		Supervisor supervisor = supervisorDao.findById(3);
+		System.out.println(supervisor);
+
+		System.out.println("\n=== TEST 2: supervisor insert ===");
+		Supervisor newSupervisor = new Supervisor(null, "Greg", "3456776", PostoGrad.G3S, "11932334455", "gregds", "1234567");
 		supervisorDao.insert(newSupervisor);
 		System.out.println("Inserted! New id = " + newSupervisor.getId());
 
+		System.out.println("\n=== TEST 3: supervisor update ===");
+		supervisor = supervisorDao.findById(1);
+		supervisor.setNome("Tomas Herculano");
+		supervisorDao.update(supervisor);
+		System.out.println("Update complete!");
 	}
-
 }

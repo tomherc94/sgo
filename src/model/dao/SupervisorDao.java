@@ -12,7 +12,7 @@ public interface SupervisorDao {
 
 	void deleteById(Integer id);
 
-	Supervisor findByIdentidade(String identidade);
+	Supervisor findById(Integer id);
 
 	List<Supervisor> findAll();
 }
