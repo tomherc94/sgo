@@ -1,5 +1,7 @@
 package app;
 
+import java.util.List;
+
 import model.dao.DaoFactory;
 import model.dao.SupervisorDao;
 import model.entities.Supervisor;
@@ -16,8 +18,9 @@ public class Program {
 		System.out.println(supervisor);
 
 		System.out.println("\n=== TEST 2: supervisor insert ===");
-		Supervisor newSupervisor = new Supervisor(null, "Greg", "3456776", PostoGrad.G3S, "11932334455", "gregds", "1234567");
-		supervisorDao.insert(newSupervisor);
+		Supervisor newSupervisor = new Supervisor(null, "Greg", "3456776", PostoGrad.G3S, "11932334455", "gregds",
+				"1234567");
+		// supervisorDao.insert(newSupervisor);
 		System.out.println("Inserted! New id = " + newSupervisor.getId());
 
 		System.out.println("\n=== TEST 3: supervisor update ===");
@@ -25,5 +28,20 @@ public class Program {
 		supervisor.setNome("Tomas Herculano");
 		supervisorDao.update(supervisor);
 		System.out.println("Update complete!");
+
+		System.out.println("\n=== TEST 4: supervisor delete ===");
+		// supervisorDao.deleteById(6);
+		System.out.println("Delete complete!");
+
+		System.out.println("\n=== TEST 5: supervisor findAll ===");
+		List<Supervisor> list = supervisorDao.findAll();
+
+		for (Supervisor obj : list) {
+			System.out.println(obj);
+		}
+		
+		System.out.println("=== TEST 6: supervisor findByIdentidade ===");
+		supervisor = supervisorDao.findByIdentidade("447886");
+		System.out.println(supervisor);
 	}
 }

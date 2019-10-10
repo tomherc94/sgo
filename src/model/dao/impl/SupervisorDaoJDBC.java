@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mysql.jdbc.Statement;
@@ -80,12 +81,22 @@ public class SupervisorDaoJDBC implements SupervisorDao {
 		} finally {
 			DB.closeStatement(st);
 		}
-
 	}
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM supervisor WHERE idSup = ?");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -126,7 +137,51 @@ public class SupervisorDaoJDBC implements SupervisorDao {
 
 	@Override
 	public List<Supervisor> findAll() {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM supervisor ORDER BY nome");
+
+			rs = st.executeQuery();
+
+			List<Supervisor> list = new ArrayList<>();
+			while (rs.next()) {
+				Supervisor obj = instanciateSupervisor(rs);
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (
+
+		SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public Supervisor findByIdentidade(String identidade) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM supervisor WHERE identidade = ?");
+			st.setString(1, identidade);
+			rs = st.executeQuery();
+			if (rs.next()) {
+
+				Supervisor obj = instanciateSupervisor(rs);
+
+				return obj;
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 
