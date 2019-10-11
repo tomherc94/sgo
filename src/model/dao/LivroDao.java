@@ -14,6 +14,8 @@ public interface LivroDao {
 	void update(Livro obj);
 
 	void deleteByStatus(StatusLivro status);
+	
+	Livro findById(Integer id);
 
 	Livro findByStatus(StatusLivro status);
 	

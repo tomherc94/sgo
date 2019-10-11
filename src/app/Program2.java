@@ -43,5 +43,12 @@ public class Program2 {
 		System.out.println("=== TEST 6: Equipamento findByNome ===");
 		equipamento = equipamentoDao.findByNome("CTR02");
 		System.out.println(equipamento);
+		
+		System.out.println("=== TEST 6: Equipamento findByTipo ===");
+		List<Equipamento> list2 = equipamentoDao.findByTipo(Tipo.ACAMS);
+		
+		for (Equipamento obj : list2) {
+			System.out.println(obj);
+		}
 	}
 }

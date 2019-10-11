@@ -174,4 +174,33 @@ public class EquipamentoDaoJDBC implements EquipamentoDao {
 		}
 	}
 
+	@Override
+	public List<Equipamento> findByTipo(Tipo tipo) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM equipamento WHERE tipo = ?");
+
+			st.setString(1, tipo.toString());
+			
+			rs = st.executeQuery();
+
+			List<Equipamento> list = new ArrayList<>();
+			while (rs.next()) {
+				Equipamento obj = instanciateEquipamento(rs);
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (
+
+		SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
 }

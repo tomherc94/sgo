@@ -3,6 +3,7 @@ package model.dao;
 import java.util.List;
 
 import model.entities.Equipamento;
+import model.entities.enums.Tipo;
 
 public interface EquipamentoDao {
 
@@ -15,6 +16,8 @@ public interface EquipamentoDao {
 	Equipamento findById(Integer id);
 	
 	Equipamento findByNome(String nome);
+	
+	List<Equipamento> findByTipo(Tipo tipo);
 
 	List<Equipamento> findAll();
 }

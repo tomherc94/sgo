@@ -15,11 +15,24 @@ public class Livro implements Serializable {
 	private Date dataHoraFechamento;
 	private StatusLivro status;
 	private Supervisor supervisor;
+	private Turno turno;
 	private List<Ocorrencia> listaOcor;
 
 	public Livro() {
 
 	}
+
+	
+
+	public Livro(Integer id, Date dataHoraAbertura, StatusLivro status, Supervisor supervisor, Turno turno) {
+		this.id = id;
+		this.dataHoraAbertura = dataHoraAbertura;
+		this.status = status;
+		this.supervisor = supervisor;
+		this.turno = turno;
+	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -63,6 +76,14 @@ public class Livro implements Serializable {
 
 	public List<Ocorrencia> getListaOcor() {
 		return listaOcor;
+	}
+
+	public Turno getTurno() {
+		return turno;
+	}
+
+	public void setTurno(Turno turno) {
+		this.turno = turno;
 	}
 
 	public void adicionarOcorrencia(Ocorrencia ocorrencia) {
