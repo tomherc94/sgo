@@ -11,8 +11,7 @@ public class Ocorrencia implements Serializable {
 
 	private Integer id;
 	private Estado estado;
-	private Date data;
-	private Date hora;
+	private Date dataHora;
 	private StringBuilder descricao;
 	private Equipamento equipamento;
 	private Livro livro;
@@ -21,12 +20,11 @@ public class Ocorrencia implements Serializable {
 
 	}
 
-	public Ocorrencia(Integer id, Estado estado, Date data, Date hora, StringBuilder descricao, Equipamento equipamento,
+	public Ocorrencia(Integer id, Estado estado, Date dataHora, StringBuilder descricao, Equipamento equipamento,
 			Livro livro) {
 		this.id = id;
 		this.estado = estado;
-		this.data = data;
-		this.hora = hora;
+		this.dataHora = dataHora;
 		this.descricao = descricao;
 		this.equipamento = equipamento;
 		this.livro = livro;
@@ -48,20 +46,12 @@ public class Ocorrencia implements Serializable {
 		this.estado = estado;
 	}
 
-	public Date getData() {
-		return data;
+	public Date getDataHora() {
+		return dataHora;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
-	}
-
-	public Date getHora() {
-		return hora;
-	}
-
-	public void setHora(Date hora) {
-		this.hora = hora;
+	public void setDataHora(Date dataHora) {
+		this.dataHora = dataHora;
 	}
 
 	public StringBuilder getDescricao() {
@@ -90,10 +80,8 @@ public class Ocorrencia implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Ocorrencia [id=" + id + ", estado=" + estado + ", data=" + data + ", hora=" + hora + ", descricao="
-				+ descricao + ", equipamento=" + equipamento + ", livro=" + livro + "]";
+		return "Ocorrencia [id=" + id + ", estado=" + estado + ", dataHora=" + dataHora + ", descricao=" + descricao
+				+ ", equipamento=" + equipamento + ", livro=" + livro + "]";
 	}
-
-	
 
 }
