@@ -15,6 +15,8 @@ public interface OcorrenciaDao {
 
 	void deleteById(Integer id);
 	
+	void deleteByIdLivro(Integer id);
+	
 	Ocorrencia findById(Integer id);
 	
 	List<Ocorrencia> findByData(Date inicio, Date fim);

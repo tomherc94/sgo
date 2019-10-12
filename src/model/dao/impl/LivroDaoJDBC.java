@@ -95,6 +95,9 @@ public class LivroDaoJDBC implements LivroDao {
 
 	@Override
 	public void deleteByStatusAberto() {
+		Livro livroAberto = findLivroAberto();
+		OcorrenciaDao ocorrenciaDao = DaoFactory.createOcorrenciaDao();
+		ocorrenciaDao.deleteByIdLivro(livroAberto.getId());
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement("DELETE FROM livro WHERE status = 'ABERTO'");

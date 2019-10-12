@@ -31,12 +31,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 	public OcorrenciaDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
+	
+	LivroDao livroDao = DaoFactory.createLivroDao();
+	Livro livroAberto = livroDao.findLivroAberto();
 
 	@Override
 	public void insert(Ocorrencia obj) {
-
-		LivroDao livroDao = DaoFactory.createLivroDao();
-		Livro livroAberto = livroDao.findLivroAberto();
 		
 		PreparedStatement st = null;
 		try {
@@ -86,12 +86,9 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 	@Override
 	public void update(Ocorrencia obj) {
 		
-		LivroDao livroDao = DaoFactory.createLivroDao();
-		Livro livroAberto = livroDao.findLivroAberto();
-		
 		PreparedStatement st = null;
 		try {
-			if(obj.getLivro().getId() == livroAberto.getId()) {
+			if(livroAberto != null && obj.getLivro().getId() == livroAberto.getId()) {
 				st = conn.prepareStatement("UPDATE ocorrencia SET estadoOcorrencia = ?, dataHora = ?, "
 						+ "descricao = ?, equipamento_idEquip = ? WHERE idOcor = ?");
 
@@ -115,8 +112,36 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM ocorrencia WHERE idOcor = ?");
 
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+
+	}
+	
+	@Override
+	public void deleteByIdLivro(Integer id) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM ocorrencia WHERE livro_idLivro = ?");
+
+			st.setInt(1, id);
+			
+			st.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+		
 	}
 
 	@Override
@@ -190,6 +215,8 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		obj.setLivro(livroDao.findById(rs.getInt("livro_idLivro")));
 		return obj;
 	}
+
+	
 
 	
 

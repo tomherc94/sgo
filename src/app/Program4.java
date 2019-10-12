@@ -8,7 +8,6 @@ import model.dao.EquipamentoDao;
 import model.dao.OcorrenciaDao;
 import model.entities.Ocorrencia;
 import model.entities.enums.Estado;
-import model.entities.enums.StatusLivro;
 
 public class Program4 {
 
@@ -22,7 +21,7 @@ public class Program4 {
 		System.out.println("\n=== TEST 1: Ocorrencia insert ===");
 		Ocorrencia newOcorrencia = new Ocorrencia(null, Estado.OPERACIONAL, new Date(),
 				new StringBuilder().append("Descricao ..."), equipamentoDao.findByNome("CTR02"), null);
-		ocorrenciaDao.insert(newOcorrencia);
+		//ocorrenciaDao.insert(newOcorrencia);
 		System.out.println("Inserted! New id = " + newOcorrencia.getId());
 
 		System.out.println("=== TEST 2: Ocorrencia findById ===");
@@ -30,17 +29,17 @@ public class Program4 {
 		System.out.println(ocorrencia);
 
 		System.out.println("\n=== TEST 3: Ocorrencia update ===");
-		ocorrencia = ocorrenciaDao.findById(7);
+		ocorrencia = ocorrenciaDao.findById(6);
 		ocorrencia.setDataHora(new Date());
 		ocorrencia.setEstado(Estado.DESATIVADO);
 		ocorrenciaDao.update(ocorrencia);
 		System.out.println("Update complete!");
 
-		/*System.out.println("\n=== TEST 4: Livro delete ==="); //
-		livroDao.deleteByStatusAberto();
+		System.out.println("\n=== TEST 4: Ocorrencia delete ==="); //
+		ocorrenciaDao.deleteById(6);
 		System.out.println("Delete complete!");
 
-		System.out.println("\n=== TEST 5: Livro findAll ===");
+		/*System.out.println("\n=== TEST 5: Livro findAll ===");
 		List<Livro> list = livroDao.findAll();
 
 		for (Livro obj : list) {
