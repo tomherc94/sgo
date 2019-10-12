@@ -40,11 +40,11 @@ public class Program5 {
 		livro = livroDao.findById(17);
 		livro.setDataHoraFechamento(new Date());
 		livro.setStatus(StatusLivro.FECHADO);
-		livroDao.update(livro);
+		//livroDao.update(livro);
 		System.out.println("Update complete!");
 
 		System.out.println("\n=== TEST 4: Livro delete ===");
-		livroDao.deleteByStatusAberto();
+		//livroDao.deleteByStatusAberto();
 		System.out.println("Delete complete!");
 
 		System.out.println("\n=== TEST 5: Livro findAll ===");

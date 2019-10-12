@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,13 +32,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 	public OcorrenciaDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
-	
+
 	LivroDao livroDao = DaoFactory.createLivroDao();
-	Livro livroAberto = livroDao.findLivroAberto();
 
 	@Override
 	public void insert(Ocorrencia obj) {
-		
+		Livro livroAberto = livroDao.findLivroAberto();
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
@@ -59,7 +59,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 					int id = rs.getInt(1);
 					obj.setId(id);
 				}
-				
+
 				DB.closeResultSet(rs);
 			} else {
 				throw new DbException("Erro inesperado! Nenhuma linha foi afetada!");
@@ -71,12 +71,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		}
 
 	}
-	
+
 	public void updateEquipamento() {
 		List<Ocorrencia> list = findByLivroAberto();
 		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
-		
-		for(Ocorrencia ocorrencia : list) {
+
+		for (Ocorrencia ocorrencia : list) {
 			Equipamento equipamento = equipamentoDao.findById(ocorrencia.getEquipamento().getId());
 			equipamento.setEstadoAtual(ocorrencia.getEstado());
 			equipamentoDao.update(equipamento);
@@ -85,10 +85,10 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	@Override
 	public void update(Ocorrencia obj) {
-		
+		Livro livroAberto = livroDao.findLivroAberto();
 		PreparedStatement st = null;
 		try {
-			if(livroAberto != null && obj.getLivro().getId() == livroAberto.getId()) {
+			if (livroAberto != null && obj.getLivro().getId() == livroAberto.getId()) {
 				st = conn.prepareStatement("UPDATE ocorrencia SET estadoOcorrencia = ?, dataHora = ?, "
 						+ "descricao = ?, equipamento_idEquip = ? WHERE idOcor = ?");
 
@@ -100,7 +100,6 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 				st.executeUpdate();
 			}
-			
 
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -117,7 +116,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 			st = conn.prepareStatement("DELETE FROM ocorrencia WHERE idOcor = ?");
 
 			st.setInt(1, id);
-			
+
 			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -126,7 +125,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		}
 
 	}
-	
+
 	@Override
 	public void deleteByIdLivro(Integer id) {
 		PreparedStatement st = null;
@@ -134,14 +133,14 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 			st = conn.prepareStatement("DELETE FROM ocorrencia WHERE livro_idLivro = ?");
 
 			st.setInt(1, id);
-			
+
 			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
 		}
-		
+
 	}
 
 	@Override
@@ -171,32 +170,136 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	@Override
 	public List<Ocorrencia> findByData(Date inicio, Date fim) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Ocorrencia> all = findAll();
+		List<Ocorrencia> result = new ArrayList<>();
+
+		// compara a dataHoraAbertura de todas ocorrencias com a faixa de datas fornecidas
+		// como parametro
+		for (Ocorrencia obj : all) {
+			Date dataHora = obj.getDataHora();
+			if (dataHora.compareTo(inicio) >= 0 && dataHora.compareTo(fim) <= 0) {
+				result.add(obj);
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public List<Ocorrencia> findByEquipamento(Equipamento equipamento) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT * FROM ocorrencia WHERE equipamento_idEquip = ? ORDER BY dataHora DESC");
+
+			st.setInt(1, equipamento.getId());
+
+			rs = st.executeQuery();
+
+			List<Ocorrencia> list = new ArrayList<>();
+			while (rs.next()) {
+				Ocorrencia obj = instanciateOcorrencia(rs);
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
-	public List<Ocorrencia> findByLivro(Livro livro) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Ocorrencia> findByLivro(Integer id) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
+
+			st.setInt(1, id);
+
+			rs = st.executeQuery();
+
+			List<Ocorrencia> list = new ArrayList<>();
+			while (rs.next()) {
+				Ocorrencia obj = instanciateOcorrencia(rs);
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
 	public List<Ocorrencia> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM ocorrencia ORDER BY dataHora DESC");
+
+			rs = st.executeQuery();
+
+			List<Ocorrencia> list = new ArrayList<>();
+			while (rs.next()) {
+				Ocorrencia obj = instanciateOcorrencia(rs);
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
-	
+
 	@Override
 	public List<Ocorrencia> findByLivroAberto() {
-		// TODO Auto-generated method stub
-		return null;
+		Livro livroAberto = livroDao.findLivroAberto();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHoraAbertura DESC");
+
+			st.setInt(1, livroAberto.getId());
+
+			rs = st.executeQuery();
+
+			List<Ocorrencia> list = new ArrayList<>();
+			while (rs.next()) {
+				Ocorrencia obj = instanciateOcorrencia(rs);
+
+				list.add(obj);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	private Ocorrencia instanciateOcorrencia(ResultSet rs) throws SQLException, ParseException {
@@ -215,9 +318,5 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		obj.setLivro(livroDao.findById(rs.getInt("livro_idLivro")));
 		return obj;
 	}
-
-	
-
-	
 
 }

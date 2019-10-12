@@ -73,15 +73,12 @@ public class LivroDaoJDBC implements LivroDao {
 	public void update(Livro obj) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("UPDATE livro " + "SET dataHoraAbertura = ?, dataHoraFechamento = ?, "
-					+ "status = ?, supervisor_idSup = ?, turno_idTurno = ? WHERE idLivro = ?");
+			st = conn.prepareStatement("UPDATE livro " + "SET dataHoraAbertura = ?, supervisor_idSup = ?, turno_idTurno = ? WHERE idLivro = ?");
 
-			st.setString(1, sdf.format(obj.getDataHoraAbertura()));
-			st.setString(2, sdf.format(obj.getDataHoraFechamento()));
-			st.setString(3, obj.getStatus().toString());
-			st.setInt(4, obj.getSupervisor().getId());
-			st.setInt(5, obj.getTurno().getId());
-			st.setInt(6, obj.getId());
+			st.setString(1, sdf.format(new Date()));
+			st.setInt(2, obj.getSupervisor().getId());
+			st.setInt(3, obj.getTurno().getId());
+			st.setInt(4, obj.getId());
 
 			st.executeUpdate();
 
@@ -91,6 +88,26 @@ public class LivroDaoJDBC implements LivroDao {
 			DB.closeStatement(st);
 		}
 
+	}
+	
+	@Override
+	public void fecharLivro() {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("UPDATE livro SET dataHoraFechamento = ?, status = ? WHERE idLivro = ?");
+			
+			st.setString(1, sdf.format(new Date()));
+			st.setString(2, StatusLivro.FECHADO.toString());
+			st.setInt(3, findLivroAberto().getId());
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+		
 	}
 
 	@Override
@@ -260,7 +277,8 @@ public class LivroDaoJDBC implements LivroDao {
 		obj.setSupervisor(supervisorDao.findById(rs.getInt("supervisor_idSup")));
 		obj.setTurno(turnoDao.findById(rs.getInt("turno_idTurno")));
 
-		List<Ocorrencia> lista = ocorrenciaDao.findByLivro(obj);
+		List<Ocorrencia> lista = new ArrayList<>();
+		lista = ocorrenciaDao.findByLivro(obj.getId());
 
 		if (lista != null) {
 			for (Ocorrencia ocorrencia : lista) {
@@ -270,5 +288,7 @@ public class LivroDaoJDBC implements LivroDao {
 
 		return obj;
 	}
+
+	
 
 }

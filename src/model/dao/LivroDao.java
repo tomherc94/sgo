@@ -11,6 +11,8 @@ public interface LivroDao {
 	void insert(Livro obj);
 
 	void update(Livro obj);
+	
+	void fecharLivro();
 
 	void deleteByStatusAberto();
 
