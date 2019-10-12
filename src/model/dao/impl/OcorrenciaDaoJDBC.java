@@ -35,6 +35,9 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 	@Override
 	public void insert(Ocorrencia obj) {
 
+		LivroDao livroDao = DaoFactory.createLivroDao();
+		Livro livroAberto = livroDao.findLivroAberto();
+		
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
@@ -46,13 +49,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 			st.setString(2, sdf.format(obj.getDataHora()));
 			st.setString(3, obj.getDescricao().toString());
 			st.setInt(4, obj.getEquipamento().getId());
-			st.setInt(5, obj.getLivro().getId());
+			st.setInt(5, livroAberto.getId());
 
 			int rowsAfected = st.executeUpdate();
 
 			if (rowsAfected > 0) {
 				ResultSet rs = st.getGeneratedKeys();
-				updateEquipamento(obj.getEstado(), obj.getEquipamento().getId());
 				if (rs.next()) {
 					int id = rs.getInt(1);
 					obj.setId(id);
@@ -70,17 +72,44 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	}
 	
-	public void updateEquipamento(Estado estado, Integer idEquip) {
+	public void updateEquipamento() {
+		List<Ocorrencia> list = findByLivroAberto();
 		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
 		
-		Equipamento equipamento = equipamentoDao.findById(idEquip);
-		equipamento.setEstadoAtual(estado);
-		equipamentoDao.update(equipamento);
+		for(Ocorrencia ocorrencia : list) {
+			Equipamento equipamento = equipamentoDao.findById(ocorrencia.getEquipamento().getId());
+			equipamento.setEstadoAtual(ocorrencia.getEstado());
+			equipamentoDao.update(equipamento);
+		}
 	}
 
 	@Override
 	public void update(Ocorrencia obj) {
-		// TODO Auto-generated method stub
+		
+		LivroDao livroDao = DaoFactory.createLivroDao();
+		Livro livroAberto = livroDao.findLivroAberto();
+		
+		PreparedStatement st = null;
+		try {
+			if(obj.getLivro().getId() == livroAberto.getId()) {
+				st = conn.prepareStatement("UPDATE ocorrencia SET estadoOcorrencia = ?, dataHora = ?, "
+						+ "descricao = ?, equipamento_idEquip = ? WHERE idOcor = ?");
+
+				st.setString(1, obj.getEstado().toString());
+				st.setString(2, sdf.format(obj.getDataHora()));
+				st.setString(3, obj.getDescricao().toString());
+				st.setInt(4, obj.getEquipamento().getId());
+				st.setInt(5, obj.getId());
+
+				st.executeUpdate();
+			}
+			
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -92,7 +121,26 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	@Override
 	public Ocorrencia findById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM ocorrencia WHERE idOcor = ?");
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+
+				Ocorrencia obj = instanciateOcorrencia(rs);
+
+				return obj;
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 		return null;
 	}
 
@@ -119,6 +167,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Ocorrencia> findByLivroAberto() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	private Ocorrencia instanciateOcorrencia(ResultSet rs) throws SQLException, ParseException {
 		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
@@ -136,5 +190,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		obj.setLivro(livroDao.findById(rs.getInt("livro_idLivro")));
 		return obj;
 	}
+
+	
 
 }

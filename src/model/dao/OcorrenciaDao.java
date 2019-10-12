@@ -24,4 +24,6 @@ public interface OcorrenciaDao {
 	List<Ocorrencia> findByLivro(Livro livro);
 
 	List<Ocorrencia> findAll();
+	
+	List<Ocorrencia> findByLivroAberto();
 }

@@ -37,7 +37,7 @@ public class Program5 {
 		System.out.println(livro);
 
 		System.out.println("\n=== TEST 3: Livro update ===");
-		livro = livroDao.findById(4);
+		livro = livroDao.findById(17);
 		livro.setDataHoraFechamento(new Date());
 		livro.setStatus(StatusLivro.FECHADO);
 		livroDao.update(livro);
