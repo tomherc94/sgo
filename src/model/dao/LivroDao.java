@@ -15,6 +15,8 @@ public interface LivroDao {
 	void deleteByStatusAberto();
 
 	Livro findById(Integer id);
+	
+	Livro findLivroAberto();
 
 	List<Livro> findByDataHoraAbertura(Date inicio, Date fim);
 

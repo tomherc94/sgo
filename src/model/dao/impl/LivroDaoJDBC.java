@@ -109,6 +109,31 @@ public class LivroDaoJDBC implements LivroDao {
 	}
 
 	@Override
+	public Livro findLivroAberto() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM livro WHERE status = 'ABERTO'");
+
+			rs = st.executeQuery();
+			if (rs.next()) {
+
+				Livro obj = instanciateLivro(rs);
+
+				return obj;
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+		return null;
+	}
+
+	@Override
 	public List<Livro> findByDataHoraAbertura(Date inicio, Date fim) {
 
 		List<Livro> all = findAll();

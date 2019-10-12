@@ -52,10 +52,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 			if (rowsAfected > 0) {
 				ResultSet rs = st.getGeneratedKeys();
+				updateEquipamento(obj.getEstado(), obj.getEquipamento().getId());
 				if (rs.next()) {
 					int id = rs.getInt(1);
 					obj.setId(id);
 				}
+				
 				DB.closeResultSet(rs);
 			} else {
 				throw new DbException("Erro inesperado! Nenhuma linha foi afetada!");
@@ -66,6 +68,14 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 			DB.closeStatement(st);
 		}
 
+	}
+	
+	public void updateEquipamento(Estado estado, Integer idEquip) {
+		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
+		
+		Equipamento equipamento = equipamentoDao.findById(idEquip);
+		equipamento.setEstadoAtual(estado);
+		equipamentoDao.update(equipamento);
 	}
 
 	@Override

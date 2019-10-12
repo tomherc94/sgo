@@ -29,7 +29,7 @@ public class Program5 {
 
 		System.out.println("\n=== TEST 1: Livro insert ===");
 		Livro newLivro = new Livro(null, new Date(), StatusLivro.ABERTO, supervisor, turno);
-		livroDao.insert(newLivro);
+		//livroDao.insert(newLivro);
 		System.out.println("Inserted! New id = " + newLivro.getId());
 
 		System.out.println("=== TEST 2: Livro findById ===");
@@ -44,7 +44,7 @@ public class Program5 {
 		System.out.println("Update complete!");
 
 		System.out.println("\n=== TEST 4: Livro delete ===");
-		// livroDao.deleteByStatusAberto();
+		//livroDao.deleteByStatusAberto();
 		System.out.println("Delete complete!");
 
 		System.out.println("\n=== TEST 5: Livro findAll ===");
