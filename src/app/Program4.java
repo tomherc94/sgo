@@ -1,15 +1,5 @@
 package app;
 
-import java.util.Date;
-
-import model.dao.DaoFactory;
-import model.dao.EquipamentoDao;
-import model.dao.OcorrenciaDao;
-import model.entities.Equipamento;
-import model.entities.Livro;
-import model.entities.Ocorrencia;
-import model.entities.enums.Estado;
-
 public class Program4 {
 
 	public static void main(String[] args) {

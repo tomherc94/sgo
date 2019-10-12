@@ -5,7 +5,6 @@ import java.util.List;
 
 import model.entities.Livro;
 import model.entities.Supervisor;
-import model.entities.enums.StatusLivro;
 
 public interface LivroDao {
 
@@ -13,14 +12,12 @@ public interface LivroDao {
 
 	void update(Livro obj);
 
-	void deleteByStatus(StatusLivro status);
-	
+	void deleteByStatusAberto();
+
 	Livro findById(Integer id);
 
-	Livro findByStatus(StatusLivro status);
-	
 	List<Livro> findByDataHoraAbertura(Date inicio, Date fim);
-	
+
 	List<Livro> findBySupervisor(Supervisor supervisor);
 
 	List<Livro> findAll();
