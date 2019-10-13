@@ -1,6 +1,7 @@
 package app;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import model.dao.DaoFactory;
 import model.dao.EquipamentoDao;
 import model.dao.OcorrenciaDao;
 import model.entities.Equipamento;
+import model.entities.Livro;
 import model.entities.Ocorrencia;
 import model.entities.enums.Estado;
 
@@ -15,7 +17,7 @@ public class Program4 {
 
 	public static void main(String[] args) throws ParseException {
 
-		// SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 
 		OcorrenciaDao ocorrenciaDao = DaoFactory.createOcorrenciaDao();
 		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
@@ -49,7 +51,7 @@ public class Program4 {
 			System.out.println(obj);
 		}
 		
-		/*System.out.println("\n=== TEST 6: Livro findByLivro ===");
+		System.out.println("\n=== TEST 6: Ocorrencia findByLivro ===");
 		List<Ocorrencia> list2 = ocorrenciaDao.findByLivro(24);
 
 		for (Ocorrencia obj : list2) {
@@ -57,22 +59,22 @@ public class Program4 {
 		}
 
 
-		/*System.out.println("\n=== TEST 6: Livro findByEquipamento ===");
+		System.out.println("\n=== TEST 6: Ocorrencia findByEquipamento ===");
 
-		List<Ocorrencia> list2 = ocorrenciaDao.findByEquipamento(equipamento);
+		List<Ocorrencia> list3 = ocorrenciaDao.findByEquipamento(equipamento);
 
-		for (Ocorrencia obj : list2) {
+		for (Ocorrencia obj : list3) {
 			System.out.println(obj);
 		}
 
-		System.out.println("\n=== TEST 7: Livro findByDataHoraAbertura ===");
+		System.out.println("\n=== TEST 7: Ocorrencia findByDataHoraAbertura ===");
 
-		List<Livro> list3 = livroDao.findByDataHoraAbertura(sdf.parse("10/10/2019 - 00:00:00"),
+		List<Ocorrencia> list4 = ocorrenciaDao.findByDataHora(sdf.parse("10/10/2019 - 00:00:00"),
 				sdf.parse("11/10/2019 - 00:00:00"));
 
-		for (Livro obj : list3) {
+		for (Ocorrencia obj : list4) {
 			System.out.println(obj);
-		}*/
+		}
 
 	}
 }

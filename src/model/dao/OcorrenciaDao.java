@@ -18,7 +18,7 @@ public interface OcorrenciaDao {
 	
 	Ocorrencia findById(Integer id);
 	
-	List<Ocorrencia> findByData(Date inicio, Date fim);
+	List<Ocorrencia> findByDataHora(Date inicio, Date fim);
 	
 	List<Ocorrencia> findByEquipamento(Equipamento equipamento);
 	

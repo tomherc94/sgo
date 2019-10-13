@@ -88,7 +88,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		Livro livroAberto = livroDao.findLivroAberto();
 		PreparedStatement st = null;
 		try {
-			if (livroAberto != null && obj.getLivro().getId() == livroAberto.getId()) {
+			if (livroAberto != null && obj.getIdLivro() == livroAberto.getId()) {
 				st = conn.prepareStatement("UPDATE ocorrencia SET estadoOcorrencia = ?, dataHora = ?, "
 						+ "descricao = ?, equipamento_idEquip = ? WHERE idOcor = ?");
 
@@ -169,11 +169,12 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 	}
 
 	@Override
-	public List<Ocorrencia> findByData(Date inicio, Date fim) {
+	public List<Ocorrencia> findByDataHora(Date inicio, Date fim) {
 		List<Ocorrencia> all = findAll();
 		List<Ocorrencia> result = new ArrayList<>();
 
-		// compara a dataHoraAbertura de todas ocorrencias com a faixa de datas fornecidas
+		// compara a dataHoraAbertura de todas ocorrencias com a faixa de datas
+		// fornecidas
 		// como parametro
 		for (Ocorrencia obj : all) {
 			Date dataHora = obj.getDataHora();
@@ -189,8 +190,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement(
-					"SELECT * FROM ocorrencia WHERE equipamento_idEquip = ? ORDER BY dataHora DESC");
+			st = conn.prepareStatement("SELECT * FROM ocorrencia WHERE equipamento_idEquip = ? ORDER BY dataHora DESC");
 
 			st.setInt(1, equipamento.getId());
 
@@ -219,8 +219,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement(
-					"SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
+			st = conn.prepareStatement("SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
 
 			st.setInt(1, id);
 
@@ -304,7 +303,6 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	private Ocorrencia instanciateOcorrencia(ResultSet rs) throws SQLException, ParseException {
 		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
-		LivroDao livroDao = DaoFactory.createLivroDao();
 
 		StringBuilder sb = new StringBuilder();
 
@@ -315,7 +313,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		sb.append(rs.getString("descricao"));
 		obj.setDescricao(sb);
 		obj.setEquipamento(equipamentoDao.findById(rs.getInt("equipamento_idEquip")));
-		obj.setLivro(livroDao.findById(rs.getInt("livro_idLivro")));
+		obj.setIdLivro(rs.getInt("livro_idLivro"));
 		return obj;
 	}
 
