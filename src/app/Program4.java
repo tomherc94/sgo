@@ -67,7 +67,7 @@ public class Program4 {
 			System.out.println(obj);
 		}
 
-		System.out.println("\n=== TEST 7: Ocorrencia findByDataHoraAbertura ===");
+		System.out.println("\n=== TEST 7: Ocorrencia findByDataHora ===");
 
 		List<Ocorrencia> list4 = ocorrenciaDao.findByDataHora(sdf.parse("10/10/2019 - 00:00:00"),
 				sdf.parse("11/10/2019 - 00:00:00"));
