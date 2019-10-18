@@ -70,6 +70,10 @@ public class Program5 {
 		for (Livro obj : list3) {
 			System.out.println(obj);
 		}
+		
+		System.out.println("\n=== TEST 8: Livro fecharLivro ===");
+		//livroDao.fecharLivro();
+		
 
 	}
 }
