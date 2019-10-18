@@ -36,16 +36,18 @@ public class LivroDaoJDBC implements LivroDao {
 
 	@Override
 	public void insert(Livro obj) {
+		// Livro livroAberto = findLivroAberto();
 		PreparedStatement st = null;
 		try {
+
 			st = conn.prepareStatement(
 					"INSERT INTO livro (dataHoraAbertura, dataHoraFechamento, status, supervisor_idSup, turno_idTurno) "
 							+ "VALUES (?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 
-			st.setString(1, sdf.format(obj.getDataHoraAbertura()));
+			st.setString(1, sdf.format(new Date()));
 			st.setString(2, null);
-			st.setString(3, obj.getStatus().toString());
+			st.setString(3, StatusLivro.ABERTO.toString());
 			st.setInt(4, obj.getSupervisor().getId());
 			st.setInt(5, obj.getTurno().getId());
 
@@ -61,6 +63,7 @@ public class LivroDaoJDBC implements LivroDao {
 			} else {
 				throw new DbException("Erro inesperado! Nenhuma linha foi afetada!");
 			}
+
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
@@ -73,7 +76,8 @@ public class LivroDaoJDBC implements LivroDao {
 	public void update(Livro obj) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("UPDATE livro " + "SET dataHoraAbertura = ?, supervisor_idSup = ?, turno_idTurno = ? WHERE idLivro = ?");
+			st = conn.prepareStatement("UPDATE livro "
+					+ "SET dataHoraAbertura = ?, supervisor_idSup = ?, turno_idTurno = ? WHERE idLivro = ?");
 
 			st.setString(1, sdf.format(new Date()));
 			st.setInt(2, obj.getSupervisor().getId());
@@ -89,13 +93,13 @@ public class LivroDaoJDBC implements LivroDao {
 		}
 
 	}
-	
+
 	@Override
 	public void fecharLivro() {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement("UPDATE livro SET dataHoraFechamento = ?, status = ? WHERE idLivro = ?");
-			
+
 			st.setString(1, sdf.format(new Date()));
 			st.setString(2, StatusLivro.FECHADO.toString());
 			st.setInt(3, findLivroAberto().getId());
@@ -107,7 +111,7 @@ public class LivroDaoJDBC implements LivroDao {
 		} finally {
 			DB.closeStatement(st);
 		}
-		
+
 	}
 
 	@Override
@@ -277,8 +281,7 @@ public class LivroDaoJDBC implements LivroDao {
 		obj.setSupervisor(supervisorDao.findById(rs.getInt("supervisor_idSup")));
 		obj.setTurno(turnoDao.findById(rs.getInt("turno_idTurno")));
 
-		List<Ocorrencia> lista = new ArrayList<>();
-		lista = ocorrenciaDao.findByLivro(obj.getId());
+		List<Ocorrencia> lista = ocorrenciaDao.findByLivro(obj.getId());
 
 		if (lista != null) {
 			for (Ocorrencia ocorrencia : lista) {
@@ -288,7 +291,5 @@ public class LivroDaoJDBC implements LivroDao {
 
 		return obj;
 	}
-
-	
 
 }

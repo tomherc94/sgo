@@ -2,7 +2,6 @@ package app;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -12,7 +11,6 @@ import model.dao.TurnoDao;
 import model.entities.Livro;
 import model.entities.Supervisor;
 import model.entities.Turno;
-import model.entities.enums.StatusLivro;
 
 public class Program5 {
 
@@ -28,18 +26,18 @@ public class Program5 {
 		Turno turno = turnoDao.findById(2);
 
 		System.out.println("\n=== TEST 1: Livro insert ===");
-		Livro newLivro = new Livro(null, new Date(), StatusLivro.ABERTO, supervisor, turno);
+		//Livro newLivro = new Livro(null, new Date(), StatusLivro.ABERTO, supervisor, turno);
 		//livroDao.insert(newLivro);
-		System.out.println("Inserted! New id = " + newLivro.getId());
+		//System.out.println("Inserted! New id = " + newLivro.getId());
 
 		System.out.println("=== TEST 2: Livro findById ===");
-		Livro livro = livroDao.findById(3);
-		System.out.println(livro);
+		//Livro livro = livroDao.findById(3);
+		//System.out.println(livro);
 
 		System.out.println("\n=== TEST 3: Livro update ===");
-		livro = livroDao.findById(17);
-		livro.setDataHoraFechamento(new Date());
-		livro.setStatus(StatusLivro.FECHADO);
+		//livro = livroDao.findById(17);
+		//livro.setDataHoraFechamento(new Date());
+		//livro.setStatus(StatusLivro.FECHADO);
 		//livroDao.update(livro);
 		System.out.println("Update complete!");
 

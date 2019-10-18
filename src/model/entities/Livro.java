@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Livro implements Serializable {
 	private List<Ocorrencia> listaOcor;
 
 	public Livro() {
-
+		this.listaOcor = new ArrayList<>();
 	}
 
 	
@@ -30,6 +31,7 @@ public class Livro implements Serializable {
 		this.status = status;
 		this.supervisor = supervisor;
 		this.turno = turno;
+		this.listaOcor = new ArrayList<>();
 	}
 
 

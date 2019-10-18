@@ -9,7 +9,6 @@ import model.dao.DaoFactory;
 import model.dao.EquipamentoDao;
 import model.dao.OcorrenciaDao;
 import model.entities.Equipamento;
-import model.entities.Livro;
 import model.entities.Ocorrencia;
 import model.entities.enums.Estado;
 

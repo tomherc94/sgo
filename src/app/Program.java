@@ -18,15 +18,15 @@ public class Program {
 		System.out.println(supervisor);
 
 		System.out.println("\n=== TEST 2: supervisor insert ===");
-		Supervisor newSupervisor = new Supervisor(null, "Greg", "3456776", PostoGrad.G3S, "11932334455", "gregds",
+		Supervisor newSupervisor = new Supervisor(null, "Brunelli", "345678", PostoGrad._1T, "11943322334", "brunellijcb",
 				"1234567");
-		// supervisorDao.insert(newSupervisor);
+		supervisorDao.insert(newSupervisor);
 		System.out.println("Inserted! New id = " + newSupervisor.getId());
 
 		System.out.println("\n=== TEST 3: supervisor update ===");
-		supervisor = supervisorDao.findById(1);
-		supervisor.setNome("Tomas Herculano");
-		supervisorDao.update(supervisor);
+		//supervisor = supervisorDao.findById(1);
+		//supervisor.setNome("Tomas Herculano");
+		//supervisorDao.update(supervisor);
 		System.out.println("Update complete!");
 
 		System.out.println("\n=== TEST 4: supervisor delete ===");
@@ -41,7 +41,7 @@ public class Program {
 		}
 		
 		System.out.println("=== TEST 6: supervisor findByIdentidade ===");
-		supervisor = supervisorDao.findByIdentidade("447886");
+		supervisor = supervisorDao.findByIdentidade("345678");
 		System.out.println(supervisor);
 	}
 }

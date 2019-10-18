@@ -2,10 +2,10 @@ package model.entities.enums;
 
 public enum PostoGrad {
 
-	P1T,
-	P2T,
-	GSO,
-	G1S,
-	G2S,
-	G3S;	
+	_1T,
+	_2T,
+	_SO,
+	_1S,
+	_2S,
+	_3S;	
 }
