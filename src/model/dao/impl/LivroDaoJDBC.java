@@ -36,34 +36,36 @@ public class LivroDaoJDBC implements LivroDao {
 
 	@Override
 	public void insert(Livro obj) {
-		// Livro livroAberto = findLivroAberto();
+		Livro livroAberto = findLivroAberto();
 		PreparedStatement st = null;
 		try {
+			if (livroAberto == null) {
+				st = conn.prepareStatement(
+						"INSERT INTO livro (dataHoraAbertura, dataHoraFechamento, status, supervisor_idSup, turno_idTurno) "
+								+ "VALUES (?, ?, ?, ?, ?)",
+						Statement.RETURN_GENERATED_KEYS);
 
-			st = conn.prepareStatement(
-					"INSERT INTO livro (dataHoraAbertura, dataHoraFechamento, status, supervisor_idSup, turno_idTurno) "
-							+ "VALUES (?, ?, ?, ?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
+				st.setString(1, sdf.format(new Date()));
+				st.setString(2, null);
+				st.setString(3, StatusLivro.ABERTO.toString());
+				st.setInt(4, obj.getSupervisor().getId());
+				st.setInt(5, obj.getTurno().getId());
 
-			st.setString(1, sdf.format(new Date()));
-			st.setString(2, null);
-			st.setString(3, StatusLivro.ABERTO.toString());
-			st.setInt(4, obj.getSupervisor().getId());
-			st.setInt(5, obj.getTurno().getId());
+				int rowsAfected = st.executeUpdate();
 
-			int rowsAfected = st.executeUpdate();
-
-			if (rowsAfected > 0) {
-				ResultSet rs = st.getGeneratedKeys();
-				if (rs.next()) {
-					int id = rs.getInt(1);
-					obj.setId(id);
+				if (rowsAfected > 0) {
+					ResultSet rs = st.getGeneratedKeys();
+					if (rs.next()) {
+						int id = rs.getInt(1);
+						obj.setId(id);
+					}
+					DB.closeResultSet(rs);
+				} else {
+					throw new DbException("Erro inesperado! Nenhuma linha foi afetada!");
 				}
-				DB.closeResultSet(rs);
 			} else {
-				throw new DbException("Erro inesperado! Nenhuma linha foi afetada!");
+				throw new DbException("Erro! Ja existe um livro com status ABERTO!");
 			}
-
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
