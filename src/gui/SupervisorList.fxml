@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="382.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="382.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SupervisorListController">
    <children>
       <Label text="Supervisor">
          <font>
@@ -21,17 +21,17 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Novo" />
+          <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAction" text="Novo" />
         </items>
       </ToolBar>
-      <TableView prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableViewSupervisor" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Id" />
-          <TableColumn prefWidth="75.0" text="Nome" />
-            <TableColumn prefWidth="75.0" text="Identidade" />
-            <TableColumn prefWidth="75.0" text="Posto/Grad" />
-            <TableColumn prefWidth="75.0" text="Celular" />
-            <TableColumn prefWidth="75.0" text="Login" />
+          <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="tableColumnNome" prefWidth="75.0" text="Nome" />
+            <TableColumn fx:id="tableColumnIdentidade" prefWidth="75.0" text="Identidade" />
+            <TableColumn fx:id="tableColumnPostoGrad" prefWidth="75.0" text="Posto/Grad" />
+            <TableColumn fx:id="tableColumnCelular" prefWidth="75.0" text="Celular" />
+            <TableColumn fx:id="tableColumnLogin" prefWidth="75.0" text="Login" />
         </columns>
       </TableView>
    </children>
