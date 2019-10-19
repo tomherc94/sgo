@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.SupervisorService;
 
 public class MainViewController implements Initializable {
 
@@ -38,7 +39,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemSupervisorAction() {
-		loadView("/gui/SupervisorList.fxml");
+		loadView2("/gui/SupervisorList.fxml");
 	}
 
 	@FXML
@@ -89,6 +90,34 @@ public class MainViewController implements Initializable {
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
+		
+		
+
+	}
+	
+	private synchronized void loadView2(String absoluteName) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			VBox newVBox = loader.load();
+			
+			Scene mainScene = Main.getMainScene();
+			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+			
+			Node mainMenu = mainVBox.getChildren().get(0);
+			mainVBox.getChildren().clear();
+			mainVBox.getChildren().add(mainMenu);
+			mainVBox.getChildren().addAll(newVBox.getChildren());
+			
+			SupervisorListController controller = loader.getController();
+			controller.setSupervisorService(new SupervisorService());
+			controller.updateTableView();
+			
+			
+		} catch (IOException e) {
+			Alerts.showAlert("IOException", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
+		}
+		
+		
 
 	}
 }
