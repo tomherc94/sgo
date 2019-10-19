@@ -6,32 +6,25 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <content>
       <VBox prefHeight="355.0" prefWidth="534.0">
          <children>
             <MenuBar>
               <menus>
-                  <Menu mnemonicParsing="false" text="Início" />
-                  <Menu mnemonicParsing="false" text="Cadastrar">
+                  <Menu mnemonicParsing="false" text="Gerenciar">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Supervisor" />
-                        <MenuItem mnemonicParsing="false" text="Equipamento" />
-                        <MenuItem mnemonicParsing="false" text="Turno" />
-                        <MenuItem mnemonicParsing="false" text="Livro" />
+                        <MenuItem fx:id="menuItemSupervisor" mnemonicParsing="false" onAction="#onMenuItemSupervisorAction" text="Supervisor" />
+                        <MenuItem fx:id="menuItemEquipamento" mnemonicParsing="false" onAction="#onMenuItemEquipamentoAction" text="Equipamento" />
+                        <MenuItem fx:id="menuItemTurno" mnemonicParsing="false" onAction="#onMenuItemTurnoAction" text="Turno" />
+                        <MenuItem fx:id="menuItemLivro" mnemonicParsing="false" onAction="#onMenuItemLivroAction" text="Livro" />
+                        <MenuItem fx:id="menuItemHistorico" mnemonicParsing="false" onAction="#onMenuItemHistoricoAction" text="Histórico" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Listar">
+                  <Menu mnemonicParsing="false" text="Ajuda">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Supervisor" />
-                        <MenuItem mnemonicParsing="false" text="Equipamento" />
-                        <MenuItem mnemonicParsing="false" text="Turno" />
-                        <MenuItem mnemonicParsing="false" text="Livro" />
-                        <MenuItem mnemonicParsing="false" text="Ocorrência" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Sobre" />
+                        <MenuItem fx:id="menuItemSobre" mnemonicParsing="false" onAction="#onMenuItemSobreAction" text="Sobre" />
+                     </items></Menu>
               </menus>
             </MenuBar>
          </children>
