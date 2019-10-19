@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import app.Main;
 import gui.util.Alerts;
@@ -39,7 +40,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemSupervisorAction() {
-		loadView2("/gui/SupervisorList.fxml");
+		loadView("/gui/SupervisorList.fxml", (SupervisorListController controller) -> {
+			controller.setSupervisorService(new SupervisorService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
@@ -64,7 +68,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemSobreAction() {
-		loadView("/gui/SobreView.fxml");
+		loadView("/gui/SobreView.fxml", x -> {});
 	}
 
 	@Override
@@ -73,7 +77,7 @@ public class MainViewController implements Initializable {
 
 	}
 
-	private synchronized void loadView(String absoluteName) {
+	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializeAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
@@ -86,38 +90,12 @@ public class MainViewController implements Initializable {
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 			
+			T controller = loader.getController();
+			initializeAction.accept(controller);
 			
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
-		
-		
-
 	}
 	
-	private synchronized void loadView2(String absoluteName) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-			VBox newVBox = loader.load();
-			
-			Scene mainScene = Main.getMainScene();
-			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			
-			Node mainMenu = mainVBox.getChildren().get(0);
-			mainVBox.getChildren().clear();
-			mainVBox.getChildren().add(mainMenu);
-			mainVBox.getChildren().addAll(newVBox.getChildren());
-			
-			SupervisorListController controller = loader.getController();
-			controller.setSupervisorService(new SupervisorService());
-			controller.updateTableView();
-			
-			
-		} catch (IOException e) {
-			Alerts.showAlert("IOException", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
-		}
-		
-		
-
-	}
 }
