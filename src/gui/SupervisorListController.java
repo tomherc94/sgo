@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import app.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -27,7 +28,7 @@ import model.entities.Supervisor;
 import model.entities.enums.PostoGrad;
 import model.services.SupervisorService;
 
-public class SupervisorListController implements Initializable{
+public class SupervisorListController implements Initializable, DataChangeListener{
 	
 	private SupervisorService service;
 
@@ -105,6 +106,7 @@ public class SupervisorListController implements Initializable{
 			SupervisorFormController controller = loader.getController();
 			controller.setSupervisor(obj);
 			controller.setSupervisorService(new SupervisorService());
+			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
@@ -118,5 +120,10 @@ public class SupervisorListController implements Initializable{
 		}catch(IOException e){
 			Alerts.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	@Override
+	public void onDataChanged() {
+		updateTableView();		
 	}
 }
