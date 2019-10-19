@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.util.Constraints;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,6 +30,8 @@ public class SupervisorFormController implements Initializable{
 	
 	@FXML
 	private ComboBox<PostoGrad> cbPostoGrad;
+	
+	private ObservableList<PostoGrad> obsListPostoGrad;
 	
 	@FXML
 	private TextField txtCelular;
@@ -65,6 +69,8 @@ public class SupervisorFormController implements Initializable{
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 		
+		obsListPostoGrad = FXCollections.observableArrayList(PostoGrad.values());
+		cbPostoGrad.setItems(obsListPostoGrad);
 	}
 
 	private void initializeNodes() {
