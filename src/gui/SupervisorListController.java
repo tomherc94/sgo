@@ -60,7 +60,8 @@ public class SupervisorListController implements Initializable{
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/SupervisorForm.fxml", parentStage);
+		Supervisor obj = new Supervisor();
+		createDialogForm(obj, "/gui/SupervisorForm.fxml", parentStage);
 	}
 
 	public void setSupervisorService (SupervisorService service) {
@@ -96,10 +97,14 @@ public class SupervisorListController implements Initializable{
 		tableViewSupervisor.setItems(obsList);
 	}
 	
-	private void createDialogForm(String absoluteName, Stage parentStage) {
+	private void createDialogForm(Supervisor obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+			
+			SupervisorFormController controller = loader.getController();
+			controller.setSupervisor(obj);
+			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Dados do Supervisor");

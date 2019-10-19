@@ -10,10 +10,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.entities.Supervisor;
 import model.entities.enums.PostoGrad;
 
 public class SupervisorFormController implements Initializable{
 
+	private Supervisor entity;
+	
 	@FXML
 	private TextField txtId;
 	
@@ -44,6 +47,10 @@ public class SupervisorFormController implements Initializable{
 	@FXML
 	private Button btCancelar;
 	
+	public void setSupervisor(Supervisor entity) {
+		this.entity = entity;
+	}
+	
 	@FXML
 	public void onBtSalvarAction() {
 		System.out.println("onBtSalvarAction");
@@ -67,5 +74,18 @@ public class SupervisorFormController implements Initializable{
 		Constraints.setTextFieldMaxLength(txtCelular, 16);
 		Constraints.setTextFieldMaxLength(txtLogin, 20);
 		Constraints.setTextFieldMaxLength(txtSenha, 15);
+	}
+	
+	public void updateFormData() {
+		if(entity == null) {
+			throw new IllegalStateException("Entidade nula!");
+		}
+		txtId.setText(String.valueOf(entity.getId()));
+		txtNome.setText(entity.getNome());
+		txtIdentidade.setText(entity.getIdentidade());
+		//cbPostoGrad
+		txtCelular.setText(entity.getCelular());
+		txtLogin.setText(entity.getLogin());
+		txtSenha.setText("");
 	}
 }
