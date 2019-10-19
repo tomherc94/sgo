@@ -13,4 +13,12 @@ public class SupervisorService {
 	public List<Supervisor> findAll() {
 		return dao.findAll();
 	}
+
+	public void saveOrUpdate(Supervisor obj) {
+		if (obj.getId() == null) {
+			dao.insert(obj);
+		} else {
+			dao.update(obj);
+		}
+	}
 }

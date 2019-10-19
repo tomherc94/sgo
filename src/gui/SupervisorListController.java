@@ -104,6 +104,7 @@ public class SupervisorListController implements Initializable{
 			
 			SupervisorFormController controller = loader.getController();
 			controller.setSupervisor(obj);
+			controller.setSupervisorService(new SupervisorService());
 			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
