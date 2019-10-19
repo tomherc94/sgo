@@ -38,7 +38,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemSupervisorAction() {
-		System.out.println("onMenuItemSupervisorAction");
+		loadView("/gui/SupervisorList.fxml");
 	}
 
 	@FXML
