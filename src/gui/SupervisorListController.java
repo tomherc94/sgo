@@ -81,7 +81,7 @@ public class SupervisorListController implements Initializable{
 		if(service == null) {
 			throw new IllegalStateException("Service was null");
 		}
-		List<Supervisor> list = service.finAll();
+		List<Supervisor> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewSupervisor.setItems(obsList);
 	}
