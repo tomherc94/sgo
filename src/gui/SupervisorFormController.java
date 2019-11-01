@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -22,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Supervisor;
 import model.entities.enums.PostoGrad;
+import model.exceptions.ValidationException;
 import model.services.SupervisorService;
 
 public class SupervisorFormController implements Initializable {
@@ -91,6 +94,8 @@ public class SupervisorFormController implements Initializable {
 			Utils.currentStage(event).close();
 		} catch (DbException e) {
 			Alerts.showAlert("Erro ao salvar", null, e.getMessage(), AlertType.ERROR);
+		} catch(ValidationException e) {
+			setErrorMessages(e.getErrors());
 		}
 	}
 
@@ -103,13 +108,24 @@ public class SupervisorFormController implements Initializable {
 	private Supervisor getFormData() {
 		Supervisor obj = new Supervisor();
 
+		ValidationException exception = new ValidationException("Erro de validacao!");
+		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
+		
+		if(txtNome.getText() == null || txtNome.getText().trim().equals(" ")) {
+			exception.addError("nome", "O campo nao pode ser vazio!");
+		}
+		
 		obj.setNome(txtNome.getText());
 		obj.setIdentidade(txtIdentidade.getText());
 		obj.setPostoGrad(cbPostoGrad.getValue());
 		obj.setCelular(txtCelular.getText());
 		obj.setLogin(txtLogin.getText());
 		obj.setSenha(txtSenha.getText());
+		
+		if(exception.getErrors().size() > 0) {
+			throw exception;
+		}
 
 		return obj;
 	}
@@ -147,5 +163,13 @@ public class SupervisorFormController implements Initializable {
 		txtCelular.setText(entity.getCelular());
 		txtLogin.setText(entity.getLogin());
 		txtSenha.setText("");
+	}
+	
+	private void setErrorMessages(Map<String,String> errors) {
+		Set<String> fields = errors.keySet();
+		
+		if(fields.contains("nome")) {
+			labelErrorName.setText(errors.get("nome"));
+		}
 	}
 }
