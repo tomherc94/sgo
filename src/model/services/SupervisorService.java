@@ -21,4 +21,8 @@ public class SupervisorService {
 			dao.update(obj);
 		}
 	}
+	
+	public void remove(Supervisor obj) {
+		dao.deleteById(obj.getId());
+	}
 }

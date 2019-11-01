@@ -3,9 +3,11 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import app.Main;
+import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -19,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,6 +60,9 @@ public class SupervisorListController implements Initializable, DataChangeListen
 
 	@FXML
 	private TableColumn<Supervisor, Supervisor> tableColumnEDIT;
+
+	@FXML
+	private TableColumn<Supervisor, Supervisor> tableColumnREMOVE;
 
 	@FXML
 	private Button btNovo;
@@ -101,6 +107,7 @@ public class SupervisorListController implements Initializable, DataChangeListen
 		obsList = FXCollections.observableArrayList(list);
 		tableViewSupervisor.setItems(obsList);
 		initEditButtons();
+		initRemoveButtons();
 	}
 
 	private void createDialogForm(Supervisor obj, String absoluteName, Stage parentStage) {
@@ -150,5 +157,40 @@ public class SupervisorListController implements Initializable, DataChangeListen
 						event -> createDialogForm(obj, "/gui/SupervisorForm.fxml", Utils.currentStage(event)));
 			}
 		});
+	}
+
+	private void initRemoveButtons() {
+		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnREMOVE.setCellFactory(param -> new TableCell<Supervisor, Supervisor>() {
+			private final Button button = new Button("remove");
+
+			@Override
+			protected void updateItem(Supervisor obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeEntity(obj));
+			}
+		});
+	}
+
+	private void removeEntity(Supervisor obj) {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmacao", "Deseja deletar o item selecionado?");
+
+		if (result.get() == ButtonType.OK) {
+			if (service == null) {
+				throw new IllegalStateException("Service was null!");
+			}
+			try {
+				service.remove(obj);
+				updateTableView();
+			} catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
+			}
+
+		}
 	}
 }
