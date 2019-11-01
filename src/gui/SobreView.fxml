@@ -2,11 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="283.0" prefWidth="337.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<VBox prefHeight="460.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label prefHeight="44.0" prefWidth="94.0" text="Sobre">
          <font>
@@ -24,5 +24,13 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
+      <TextArea editable="false" prefHeight="389.0" prefWidth="543.0" text="Atualmente o mundo é sistematizado, e não poderia ser diferente no âmbito de Controle de Tráfego Aéreo. Com o aumento exponencial do movimento aéreo nacional o desempenho dos sistemas e equipamentos utilizados pelos órgãos de controle ficaram cada vez mais dependentes da automatização de funções, tais quais os operadores não conseguiriam performar com eficiência em estados de inoperância. Partindo deste cenário surge a figura do Supervisor Técnico, o qual tem a função de monitorar e agir sobre o estado técnico e o funcionamento dos componentes físicos do sistema.&#10;&#10;O Sistema Gerenciador de Ocorrências para Informática Operacional (SGO) tem o propósito de auxiliar a figura do Supervisor Técnico na administração/manutenção dos equipamentos no âmbito do SISCEAB (Sistema de Controle do Espaço Aéreo Brasileiro), que consiste no conjunto de órgãos e instalações – tais como auxílios à navegação aérea, radares de vigilância, centros de controle e torres de controle de aeródromo, estações de telecomunicações, recursos humanos, etc. – que tem como objetivo proporcionar regularidade, segurança e eficiência do fluxo de tráfego nos aeroportos e no espaço aéreo.&#10;&#10;Um APP (Controle de Aproximação) presta os serviços de controle de tráfego aéreo e de informação de voo às aeronaves que voam dentro de uma TMA (Área de Controle Terminal) ou CTR (Zona de Controle). O SGO tem como modelo o APP-SP (Controle de Aproximação de Aeronaves de São Paulo), que tem por responsabilidade o controle aéreo da TMA-SP e Tubulão (espaço aéreo entre o Rio de Janeiro e São Paulo)." wrapText="true">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextArea>
    </children>
 </VBox>

@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.EquipamentoService;
 import model.services.SupervisorService;
 
 public class MainViewController implements Initializable {
@@ -48,7 +49,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemEquipamentoAction() {
-		System.out.println("onMenuItemEquipamentoAction");
+		loadView("/gui/EquipamentoList.fxml", (EquipamentoListController controller) -> {
+			controller.setEquipamentoService(new EquipamentoService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
