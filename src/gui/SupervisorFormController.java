@@ -60,6 +60,12 @@ public class SupervisorFormController implements Initializable {
 
 	@FXML
 	private Label labelErrorName;
+	
+	@FXML
+	private Label labelErrorIdentidade;
+	
+	@FXML
+	private Label labelErrorLogin;
 
 	@FXML
 	private Button btSalvar;
@@ -116,6 +122,14 @@ public class SupervisorFormController implements Initializable {
 			exception.addError("nome", "O campo nao pode ser vazio!");
 		}
 		
+		if(txtIdentidade.getText() == null || txtIdentidade.getText().trim().equals(" ")) {
+			exception.addError("identidade", "O campo nao pode ser vazio!");
+		}
+		
+		if(txtLogin.getText() == null || txtLogin.getText().trim().equals(" ")) {
+			exception.addError("login", "O campo nao pode ser vazio!");
+		}
+		
 		obj.setNome(txtNome.getText());
 		obj.setIdentidade(txtIdentidade.getText());
 		obj.setPostoGrad(cbPostoGrad.getValue());
@@ -170,6 +184,14 @@ public class SupervisorFormController implements Initializable {
 		
 		if(fields.contains("nome")) {
 			labelErrorName.setText(errors.get("nome"));
+		}
+		
+		if(fields.contains("identidade")) {
+			labelErrorIdentidade.setText(errors.get("identidade"));
+		}
+		
+		if(fields.contains("login")) {
+			labelErrorLogin.setText(errors.get("login"));
 		}
 	}
 }
