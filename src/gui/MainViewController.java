@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.EquipamentoService;
+import model.services.LivroService;
 import model.services.SupervisorService;
 import model.services.TurnoService;
 
@@ -66,7 +67,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemLivroAction() {
-		System.out.println("onMenuItemLivroAction");
+		loadView("/gui/LivroList.fxml", (LivroListController controller) -> {
+			controller.setLivroService(new LivroService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
