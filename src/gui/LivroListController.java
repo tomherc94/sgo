@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +27,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Livro;
 import model.entities.Supervisor;
@@ -71,7 +76,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 	public void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Livro obj = new Livro();
-		//createDialogForm(obj, "/gui/LivroForm.fxml", parentStage);
+		createDialogForm(obj, "/gui/LivroForm.fxml", parentStage);
 	}
 
 	public void setLivroService(LivroService service) {
@@ -110,7 +115,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 		initRemoveButtons();
 	}
 
-	/*private void createDialogForm(Livro obj, String absoluteName, Stage parentStage) {
+	private void createDialogForm(Livro obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
@@ -133,7 +138,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
-	}*/
+	}
 	
 	@Override
 	public void onDataChanged() {
@@ -153,8 +158,8 @@ public class LivroListController implements Initializable, DataChangeListener {
 					return;
 				}
 				setGraphic(button);
-				/*button.setOnAction(
-						event -> createDialogForm(obj, "/gui/LivroForm.fxml", Utils.currentStage(event)));*/
+				button.setOnAction(
+						event -> createDialogForm(obj, "/gui/LivroForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
