@@ -34,4 +34,8 @@ public class LivroService {
 			return true;
 		}
 	}
+	
+	public void fecharLivro() {
+		dao.fecharLivro();
+	}
 }

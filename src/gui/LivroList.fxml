@@ -34,6 +34,7 @@
             <TableColumn fx:id="tableColumnTurno" prefWidth="147.0" text="Turno" />
             <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="60.0" />
             <TableColumn fx:id="tableColumnREMOVE" prefWidth="62.0" />
+            <TableColumn fx:id="tableColumnFECHARLIVRO" prefWidth="75.0" />
         </columns>
       </TableView>
    </children>

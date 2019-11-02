@@ -38,7 +38,7 @@
             <ComboBox fx:id="cbPostoGrad" prefHeight="25.0" prefWidth="121.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="txtCelular" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="txtLogin" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="txtSenha" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="txtSenha" promptText="&lt;senha&gt;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label fx:id="labelErrorName" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <children>

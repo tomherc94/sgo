@@ -56,10 +56,10 @@ public class LivroListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableColumn<Livro, StatusLivro> tableColumnStatus;
-	
+
 	@FXML
 	private TableColumn<Livro, Supervisor> tableColumnSupervisor;
-	
+
 	@FXML
 	private TableColumn<Livro, Turno> tableColumnTurno;
 
@@ -70,6 +70,9 @@ public class LivroListController implements Initializable, DataChangeListener {
 	private TableColumn<Livro, Livro> tableColumnREMOVE;
 
 	@FXML
+	private TableColumn<Livro, Livro> tableColumnFECHARLIVRO;
+
+	@FXML
 	private Button btNovo;
 
 	private ObservableList<Livro> obsList;
@@ -78,17 +81,17 @@ public class LivroListController implements Initializable, DataChangeListener {
 	public void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		boolean livroAberto = service.findLivroAberto();
-		
-		if(livroAberto == false) {
+
+		if (livroAberto == false) {
 			Livro obj = new Livro();
 			obj.setDataHoraAbertura(new Date());
 			obj.setStatus(StatusLivro.ABERTO);
 			createDialogForm(obj, "/gui/LivroForm.fxml", parentStage);
-		}else {
-			Alerts.showAlert("Erro ao cadastrar livro", null, "Ja existem um livro com status ABERTO!", AlertType.ERROR);
+		} else {
+			Alerts.showAlert("Erro ao cadastrar livro", null, "Ja existem um livro com status ABERTO!",
+					AlertType.ERROR);
 		}
-		
-		
+
 	}
 
 	public void setLivroService(LivroService service) {
@@ -125,6 +128,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 		tableViewLivro.setItems(obsList);
 		initEditButtons();
 		initRemoveButtons();
+		initFecharLivroButtons();
 	}
 
 	private void createDialogForm(Livro obj, String absoluteName, Stage parentStage) {
@@ -152,7 +156,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 			Alerts.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
+
 	@Override
 	public void onDataChanged() {
 		updateTableView();
@@ -170,9 +174,11 @@ public class LivroListController implements Initializable, DataChangeListener {
 					setGraphic(null);
 					return;
 				}
-				setGraphic(button);
-				button.setOnAction(
-						event -> createDialogForm(obj, "/gui/LivroForm.fxml", Utils.currentStage(event)));
+				if (obj.getStatus() == StatusLivro.ABERTO) {
+					setGraphic(button);
+					button.setOnAction(
+							event -> createDialogForm(obj, "/gui/LivroForm.fxml", Utils.currentStage(event)));
+				}
 			}
 		});
 	}
@@ -189,8 +195,10 @@ public class LivroListController implements Initializable, DataChangeListener {
 					setGraphic(null);
 					return;
 				}
-				setGraphic(button);
-				button.setOnAction(event -> removeEntity());
+				if (obj.getStatus() == StatusLivro.ABERTO) {
+					setGraphic(button);
+					button.setOnAction(event -> removeEntity());
+				}
 			}
 		});
 	}
@@ -203,7 +211,45 @@ public class LivroListController implements Initializable, DataChangeListener {
 				throw new IllegalStateException("Service was null!");
 			}
 			try {
-				service.remove();;
+				service.remove();
+				;
+				updateTableView();
+			} catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
+			}
+
+		}
+	}
+
+	private void initFecharLivroButtons() {
+		tableColumnFECHARLIVRO.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnFECHARLIVRO.setCellFactory(param -> new TableCell<Livro, Livro>() {
+			private final Button button = new Button("fechar");
+
+			@Override
+			protected void updateItem(Livro obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				if (obj.getStatus() == StatusLivro.ABERTO) {
+					setGraphic(button);
+					button.setOnAction(event -> fecharEntity());
+				}
+			}
+		});
+	}
+
+	private void fecharEntity() {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmacao", "Deseja fechar o livro selecionado?");
+
+		if (result.get() == ButtonType.OK) {
+			if (service == null) {
+				throw new IllegalStateException("Service was null!");
+			}
+			try {
+				service.fecharLivro();
 				updateTableView();
 			} catch (DbIntegrityException e) {
 				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
