@@ -173,7 +173,7 @@ public class SupervisorFormController implements Initializable {
 		txtId.setText(String.valueOf(entity.getId()));
 		txtNome.setText(entity.getNome());
 		txtIdentidade.setText(entity.getIdentidade());
-		cbPostoGrad.setItems(obsListPostoGrad);
+		cbPostoGrad.setValue(entity.getPostoGrad());
 		txtCelular.setText(entity.getCelular());
 		txtLogin.setText(entity.getLogin());
 		txtSenha.setText("");

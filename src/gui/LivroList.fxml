@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="456.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LivroListController">
+<VBox prefHeight="557.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LivroListController">
    <children>
       <Label text="Livro">
          <font>
@@ -27,13 +27,13 @@
       <TableView fx:id="tableViewLivro" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="35.0" text="Id" />
-          <TableColumn fx:id="tableColumnDataHoraAbertura" prefWidth="180.0" text="Data/Hora Abertura" />
-            <TableColumn fx:id="tableColumnDataHoraFechamento" prefWidth="157.0" text="Data/Hora Fechamento" />
-            <TableColumn fx:id="tableColumnStatus" prefWidth="127.0" text="Status" />
-            <TableColumn fx:id="tableColumnSupervisor" prefWidth="75.0" text="Supervisor" />
-            <TableColumn fx:id="tableColumnTurno" prefWidth="75.0" text="Turno" />
-            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="73.0" />
-            <TableColumn fx:id="tableColumnREMOVE" prefWidth="67.0" />
+          <TableColumn fx:id="tableColumnDataHoraAbertura" prefWidth="141.0" text="Data/Hora Abertura" />
+            <TableColumn fx:id="tableColumnDataHoraFechamento" prefWidth="151.0" text="Data/Hora Fechamento" />
+            <TableColumn fx:id="tableColumnStatus" prefWidth="93.0" text="Status" />
+            <TableColumn fx:id="tableColumnSupervisor" prefWidth="153.0" text="Supervisor" />
+            <TableColumn fx:id="tableColumnTurno" prefWidth="147.0" text="Turno" />
+            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="60.0" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="62.0" />
         </columns>
       </TableView>
    </children>

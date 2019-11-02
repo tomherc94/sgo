@@ -28,8 +28,10 @@
          <children>
             <Label text="Id" />
             <Label text="Hora início" GridPane.rowIndex="1" />
+            <Label text="Hora fim" GridPane.rowIndex="2" />
             <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
-            <TextField fx:id="txtHoraInicio" promptText="HHmmss" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtHoraInicio" promptText="HH:mm:ss" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtHoraFim" layoutX="86.0" layoutY="82.0" prefHeight="25.0" prefWidth="102.0" promptText="HH:mm:ss" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvarAction" text="Salvar" />
@@ -39,8 +41,6 @@
                   <Insets top="5.0" />
                </padding>
             </HBox>
-            <Label text="Hora fim" GridPane.rowIndex="2" />
-            <TextField fx:id="txtHoraFim" layoutX="86.0" layoutY="82.0" prefHeight="25.0" prefWidth="102.0" promptText="HHmmss" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Z" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="5.0" />

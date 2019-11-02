@@ -12,6 +12,7 @@ import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,12 +20,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import model.entities.Livro;
 import model.entities.Supervisor;
 import model.entities.Turno;
 import model.entities.enums.StatusLivro;
 import model.services.LivroService;
+import model.services.SupervisorService;
+import model.services.TurnoService;
 
 public class LivroFormController implements Initializable {
 
@@ -33,6 +39,10 @@ public class LivroFormController implements Initializable {
 	private Livro entity;
 
 	private LivroService service;
+
+	private SupervisorService supervisorService;
+
+	private TurnoService turnoService;
 
 	private List<DataChangeListener> dataChangeListener = new ArrayList<>();
 
@@ -67,21 +77,30 @@ public class LivroFormController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
+	}
 
-		/*obsListTipo = FXCollections.observableArrayList(Tipo.values());
-		cbTipo.setItems(obsListTipo);
+	public void loadAssociateObjects() {
+		if (supervisorService == null) {
+			throw new IllegalStateException("SupervisorService was null!");
+		}
+		List<Supervisor> listSupervisores = supervisorService.findAll();
+		List<Turno> listTurnos = turnoService.findAll();
 
-		obsListEstado = FXCollections.observableArrayList(Estado.values());
-		cbEstadoAtual.setItems(obsListEstado);*/
+		obsListSupervisor = FXCollections.observableArrayList(listSupervisores);
+		cbSupervisor.setItems(obsListSupervisor);
 
+		obsListTurno = FXCollections.observableArrayList(listTurnos);
+		cbTurno.setItems(obsListTurno);
 	}
 
 	public void setLivro(Livro entity) {
 		this.entity = entity;
 	}
 
-	public void setLivroService(LivroService service) {
+	public void setServices(LivroService service, SupervisorService supervisorService, TurnoService turnoService) {
 		this.service = service;
+		this.supervisorService = supervisorService;
+		this.turnoService = turnoService;
 	}
 
 	public void subscribeDataChangeListener(DataChangeListener listener) {
@@ -119,7 +138,14 @@ public class LivroFormController implements Initializable {
 
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		obj.setDataHoraAbertura(sdf.parse(txtDataHoraAbertura.getText()));
-		obj.setDataHoraFechamento(sdf.parse(txtDataHoraFechamento.getText()));
+
+		// testa se a data/hora de fechamento existe
+		if (entity.getDataHoraFechamento() == null) {
+			obj.setDataHoraFechamento(null);
+		} else {
+			obj.setDataHoraFechamento(sdf.parse(txtDataHoraFechamento.getText()));
+		}
+
 		obj.setStatus(StatusLivro.valueOf(txtStatus.getText()));
 		obj.setSupervisor(cbSupervisor.getValue());
 		obj.setTurno(cbTurno.getValue());
@@ -134,6 +160,9 @@ public class LivroFormController implements Initializable {
 
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
+
+		initializeComboBoxSupervisor();
+		initializeComboBoxTurno();
 	}
 
 	public void updateFormData() {
@@ -142,17 +171,48 @@ public class LivroFormController implements Initializable {
 		}
 		txtId.setText(String.valueOf(entity.getId()));
 		txtDataHoraAbertura.setText(sdf.format(entity.getDataHoraAbertura()));
-		
-		//testa se a data/hora de fechamento existe
+
+		// testa se a data/hora de fechamento existe
 		if (entity.getDataHoraFechamento() == null) {
-			txtDataHoraFechamento.setText("<Livro aberto>");
+			txtDataHoraFechamento.setText(null);
 		} else {
 			txtDataHoraFechamento.setText(sdf.format(entity.getDataHoraFechamento()));
 		}
-		
+
 		txtStatus.setText(String.valueOf(entity.getStatus()));
+
+		if (entity.getSupervisor() == null) {
+			cbSupervisor.getSelectionModel().selectFirst();
+		} else {
+			cbSupervisor.setValue(entity.getSupervisor());
+		}
+
 		cbSupervisor.setItems(obsListSupervisor);
 		cbTurno.setItems(obsListTurno);
+	}
+
+	private void initializeComboBoxSupervisor() {
+		Callback<ListView<Supervisor>, ListCell<Supervisor>> factory = lv -> new ListCell<Supervisor>() {
+			@Override
+			protected void updateItem(Supervisor item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getNome());
+			}
+		};
+		cbSupervisor.setCellFactory(factory);
+		cbSupervisor.setButtonCell(factory.call(null));
+	}
+
+	private void initializeComboBoxTurno() {
+		Callback<ListView<Turno>, ListCell<Turno>> factory = lv -> new ListCell<Turno>() {
+			@Override
+			protected void updateItem(Turno item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.toString());
+			}
+		};
+		cbTurno.setCellFactory(factory);
+		cbTurno.setButtonCell(factory.call(null));
 	}
 
 }

@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +35,8 @@ import model.entities.Supervisor;
 import model.entities.Turno;
 import model.entities.enums.StatusLivro;
 import model.services.LivroService;
+import model.services.SupervisorService;
+import model.services.TurnoService;
 
 public class LivroListController implements Initializable, DataChangeListener {
 
@@ -133,7 +134,8 @@ public class LivroListController implements Initializable, DataChangeListener {
 
 			LivroFormController controller = loader.getController();
 			controller.setLivro(obj);
-			controller.setLivroService(new LivroService());
+			controller.setServices(new LivroService(), new SupervisorService(), new TurnoService());
+			controller.loadAssociateObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 

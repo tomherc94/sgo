@@ -149,8 +149,8 @@ public class EquipamentoFormController implements Initializable {
 		}
 		txtId.setText(String.valueOf(entity.getId()));
 		txtNome.setText(entity.getNome());
-		cbTipo.setItems(obsListTipo);
-		cbEstadoAtual.setItems(obsListEstado);
+		cbTipo.setValue(entity.getTipo());
+		cbEstadoAtual.setValue(entity.getEstadoAtual());
 	}
 	
 	private void setErrorMessages(Map<String,String> errors) {

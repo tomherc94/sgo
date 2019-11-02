@@ -89,8 +89,7 @@ public class Supervisor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Supervisor [id=" + id + ", nome=" + nome + ", identidade=" + identidade + ", postoGrad=" + postoGrad
-				+ ", celular=" + celular + ", login=" + login + ", senha=" + senha + "]";
+		return this.getNome();
 	}
 
 }

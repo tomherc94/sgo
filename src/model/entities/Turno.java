@@ -46,7 +46,7 @@ public class Turno implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Turno [id=" + id + ", horaInicio=" + horaInicio + ", horaFim=" + horaFim + "]";
+		return this.getHoraInicio() + "Z até " + this.getHoraFim() + "Z";
 	}
 
 }

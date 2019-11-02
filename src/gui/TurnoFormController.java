@@ -128,8 +128,8 @@ public class TurnoFormController implements Initializable{
 	
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtId);
-		Constraints.setTextFieldMaxLength(txtHoraInicio, 6);
-		Constraints.setTextFieldMaxLength(txtHoraFim, 6);
+		Constraints.setTextFieldMaxLength(txtHoraInicio, 8);
+		Constraints.setTextFieldMaxLength(txtHoraFim, 8);
 	}
 	
 	public void updateFormData() {
