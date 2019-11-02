@@ -28,9 +28,7 @@ import javafx.stage.Stage;
 import model.entities.Livro;
 import model.entities.Supervisor;
 import model.entities.Turno;
-import model.entities.enums.Estado;
 import model.entities.enums.StatusLivro;
-import model.entities.enums.Tipo;
 import model.services.LivroService;
 
 public class LivroListController implements Initializable, DataChangeListener {
@@ -90,8 +88,12 @@ public class LivroListController implements Initializable, DataChangeListener {
 	private void initializeNode() {
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnDataHoraAbertura.setCellValueFactory(new PropertyValueFactory<>("dataHoraAbertura"));
+		Utils.formatTableColumnDate(tableColumnDataHoraAbertura, "dd/MM/yyyy - HH:mm:ss");
 		tableColumnDataHoraFechamento.setCellValueFactory(new PropertyValueFactory<>("dataHoraFechamento"));
+		Utils.formatTableColumnDate(tableColumnDataHoraFechamento, "dd/MM/yyyy - HH:mm:ss");
 		tableColumnStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+		tableColumnSupervisor.setCellValueFactory(new PropertyValueFactory<>("supervisor"));
+		tableColumnTurno.setCellValueFactory(new PropertyValueFactory<>("turno"));
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 		tableViewLivro.prefHeightProperty().bind(stage.heightProperty());
