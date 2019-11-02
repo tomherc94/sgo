@@ -50,6 +50,16 @@
             <ComboBox fx:id="cbTurno" prefHeight="25.0" prefWidth="208.0" promptText="&lt;selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="txtDataHoraAbertura" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtDataHoraFechamento" editable="false" promptText="&lt;Livro aberto&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="labelErrorSupervisor" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="labelErrorTurno" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </children>

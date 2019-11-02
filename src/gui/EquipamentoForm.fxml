@@ -31,7 +31,10 @@
             <Label text="Nome" GridPane.rowIndex="1" />
             <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="labelErrorName" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="labelErrorName" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="5.0" />
+               </GridPane.margin></Label>
             <ComboBox fx:id="cbTipo" layoutX="86.0" layoutY="193.0" prefHeight="25.0" prefWidth="121.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbEstadoAtual" prefHeight="25.0" prefWidth="121.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -45,6 +48,8 @@
             </HBox>
             <Label text="Tipo" GridPane.rowIndex="2" />
             <Label text="Estado atual" GridPane.rowIndex="3" />
+            <Label fx:id="labelErrorTipo" layoutX="298.0" layoutY="86.0" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="labelErrorEstadoAtual" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

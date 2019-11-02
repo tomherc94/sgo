@@ -104,11 +104,11 @@ public class TurnoFormController implements Initializable{
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 
 		if (txtHoraInicio.getText() == null || txtHoraInicio.getText().trim().equals(" ")) {
-			exception.addError("nome", "O campo nao pode ser vazio!");
+			exception.addError("horaInicio", "O campo nao pode ser vazio!");
 		}
 		
 		if (txtHoraFim.getText() == null || txtHoraFim.getText().trim().equals(" ")) {
-			exception.addError("nome", "O campo nao pode ser vazio!");
+			exception.addError("horaFim", "O campo nao pode ser vazio!");
 		}
 
 		obj.setHoraInicio(txtHoraInicio.getText());

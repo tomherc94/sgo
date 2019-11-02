@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -20,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -28,6 +31,7 @@ import model.entities.Livro;
 import model.entities.Supervisor;
 import model.entities.Turno;
 import model.entities.enums.StatusLivro;
+import model.exceptions.ValidationException;
 import model.services.LivroService;
 import model.services.SupervisorService;
 import model.services.TurnoService;
@@ -63,6 +67,12 @@ public class LivroFormController implements Initializable {
 
 	@FXML
 	private ComboBox<Turno> cbTurno;
+	
+	@FXML
+	private Label labelErrorSupervisor;
+	
+	@FXML
+	private Label labelErrorTurno;
 
 	private ObservableList<Supervisor> obsListSupervisor;
 
@@ -124,6 +134,8 @@ public class LivroFormController implements Initializable {
 			Alerts.showAlert("Erro ao salvar", null, e.getMessage(), AlertType.ERROR);
 		} catch (ParseException e) {
 			Alerts.showAlert("Erro ao salvar", null, e.getMessage(), AlertType.ERROR);
+		} catch (ValidationException e) {
+			setErrorMessages(e.getErrors());
 		}
 	}
 
@@ -136,6 +148,16 @@ public class LivroFormController implements Initializable {
 	private Livro getFormData() throws ParseException {
 		Livro obj = new Livro();
 
+		ValidationException exception = new ValidationException("Erro de validacao!");
+		
+		if (cbSupervisor.getValue() == null) {
+			exception.addError("supervisor", "O campo nao pode ser vazio!");
+		}
+		
+		if (cbTurno.getValue() == null) {
+			exception.addError("turno", "O campo nao pode ser vazio!");
+		}
+		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		obj.setDataHoraAbertura(sdf.parse(txtDataHoraAbertura.getText()));
 
@@ -149,6 +171,10 @@ public class LivroFormController implements Initializable {
 		obj.setStatus(StatusLivro.valueOf(txtStatus.getText()));
 		obj.setSupervisor(cbSupervisor.getValue());
 		obj.setTurno(cbTurno.getValue());
+		
+		if (exception.getErrors().size() > 0) {
+			throw exception;
+		}
 
 		return obj;
 	}
@@ -182,7 +208,7 @@ public class LivroFormController implements Initializable {
 		txtStatus.setText(String.valueOf(entity.getStatus()));
 
 		if (entity.getSupervisor() == null) {
-			cbSupervisor.getSelectionModel().selectFirst();
+			cbSupervisor.getSelectionModel().clearSelection();
 		} else {
 			cbSupervisor.setValue(entity.getSupervisor());
 		}
@@ -213,6 +239,14 @@ public class LivroFormController implements Initializable {
 		};
 		cbTurno.setCellFactory(factory);
 		cbTurno.setButtonCell(factory.call(null));
+	}
+	
+	private void setErrorMessages(Map<String,String> errors) {
+		Set<String> fields = errors.keySet();
+		
+		labelErrorSupervisor.setText(fields.contains("supervisor") ? errors.get("supervisor") : "");
+		
+		labelErrorTurno.setText(fields.contains("turno") ? errors.get("turno") : "");
 	}
 
 }

@@ -54,6 +54,12 @@ public class EquipamentoFormController implements Initializable {
 
 	@FXML
 	private Label labelErrorName;
+	
+	@FXML
+	private Label labelErrorTipo;
+	
+	@FXML
+	private Label labelErrorEstadoAtual;
 
 	@FXML
 	private Button btSalvar;
@@ -121,6 +127,14 @@ public class EquipamentoFormController implements Initializable {
 		if (txtNome.getText() == null || txtNome.getText().trim().equals(" ")) {
 			exception.addError("nome", "O campo nao pode ser vazio!");
 		}
+		
+		if (cbTipo.getValue() == null) {
+			exception.addError("tipo", "O campo nao pode ser vazio!");
+		}
+		
+		if (cbEstadoAtual.getValue() == null) {
+			exception.addError("estadoAtual", "O campo nao pode ser vazio!");
+		}
 
 		obj.setNome(txtNome.getText());
 		obj.setTipo(cbTipo.getValue());
@@ -157,6 +171,10 @@ public class EquipamentoFormController implements Initializable {
 		Set<String> fields = errors.keySet();
 		
 		labelErrorName.setText(fields.contains("nome") ? errors.get("nome") : "");
+		
+		labelErrorTipo.setText(fields.contains("tipo") ? errors.get("tipo") : "");
+		
+		labelErrorEstadoAtual.setText(fields.contains("estadoAtual") ? errors.get("estadoAtual") : "");
 	}
 
 }
