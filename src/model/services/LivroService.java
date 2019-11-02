@@ -25,4 +25,13 @@ public class LivroService {
 	public void remove() {
 		dao.deleteByStatusAberto();
 	}
+	
+	public boolean findLivroAberto() {
+		Livro livroAberto = dao.findLivroAberto();
+		if(livroAberto == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 }

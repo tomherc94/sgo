@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -75,8 +76,18 @@ public class LivroListController implements Initializable, DataChangeListener {
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		Livro obj = new Livro();
-		createDialogForm(obj, "/gui/LivroForm.fxml", parentStage);
+		boolean livroAberto = service.findLivroAberto();
+		
+		if(livroAberto == false) {
+			Livro obj = new Livro();
+			obj.setDataHoraAbertura(new Date());
+			obj.setStatus(StatusLivro.ABERTO);
+			createDialogForm(obj, "/gui/LivroForm.fxml", parentStage);
+		}else {
+			Alerts.showAlert("Erro ao cadastrar livro", null, "Ja existem um livro com status ABERTO!", AlertType.ERROR);
+		}
+		
+		
 	}
 
 	public void setLivroService(LivroService service) {

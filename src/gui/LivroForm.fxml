@@ -32,8 +32,6 @@
             <Label text="Id" />
             <Label text="Data/Hora Abertura" GridPane.rowIndex="1" />
             <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
-            <TextField fx:id="txtNome" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="labelErrorName" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
                   <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvarAction" text="Salvar" />
@@ -47,10 +45,11 @@
             <Label text="Status" GridPane.rowIndex="3" />
             <Label layoutX="10.0" layoutY="165.0" text="Supervisor" GridPane.rowIndex="4" />
             <Label layoutX="10.0" layoutY="182.0" text="Turno" GridPane.rowIndex="5" />
-            <TextField editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ComboBox prefWidth="150.0" promptText="&lt;selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox prefWidth="150.0" promptText="&lt;selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txtStatus" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="cbSupervisor" prefWidth="150.0" promptText="&lt;selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="cbTurno" prefWidth="150.0" promptText="&lt;selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txtDataHoraAbertura" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtDataHoraFechamento" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>
