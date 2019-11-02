@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.EquipamentoService;
 import model.services.SupervisorService;
+import model.services.TurnoService;
 
 public class MainViewController implements Initializable {
 
@@ -57,7 +58,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemTurnoAction() {
-		System.out.println("onMenuItemTurnoAction");
+		loadView("/gui/TurnoList.fxml", (TurnoListController controller) -> {
+			controller.setTurnoService(new TurnoService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
