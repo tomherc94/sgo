@@ -65,7 +65,16 @@ public class SupervisorFormController implements Initializable {
 	private Label labelErrorIdentidade;
 	
 	@FXML
+	private Label labelErrorPostoGrad;
+	
+	@FXML
+	private Label labelErrorCelular;
+	
+	@FXML
 	private Label labelErrorLogin;
+	
+	@FXML
+	private Label labelErrorSenha;
 
 	@FXML
 	private Button btSalvar;
@@ -130,6 +139,18 @@ public class SupervisorFormController implements Initializable {
 			exception.addError("login", "O campo nao pode ser vazio!");
 		}
 		
+		if(cbPostoGrad.getValue() == null) {
+			exception.addError("postoGrad", "O campo nao pode ser vazio!");
+		}
+		
+		if(txtCelular.getText() == null || txtCelular.getText().trim().equals(" ")) {
+			exception.addError("celular", "O campo nao pode ser vazio!");
+		}
+		
+		if(txtSenha.getText() == null || txtSenha.getText().trim().equals(" ")) {
+			exception.addError("senha", "O campo nao pode ser vazio!");
+		}
+		
 		obj.setNome(txtNome.getText());
 		obj.setIdentidade(txtIdentidade.getText());
 		obj.setPostoGrad(cbPostoGrad.getValue());
@@ -182,16 +203,18 @@ public class SupervisorFormController implements Initializable {
 	private void setErrorMessages(Map<String,String> errors) {
 		Set<String> fields = errors.keySet();
 		
-		if(fields.contains("nome")) {
-			labelErrorName.setText(errors.get("nome"));
-		}
 		
-		if(fields.contains("identidade")) {
-			labelErrorIdentidade.setText(errors.get("identidade"));
-		}
+		labelErrorName.setText(fields.contains("nome") ? errors.get("nome") : "");
 		
-		if(fields.contains("login")) {
-			labelErrorLogin.setText(errors.get("login"));
-		}
+		labelErrorIdentidade.setText(fields.contains("identidade") ? errors.get("identidade") : "");
+		
+		labelErrorPostoGrad.setText(fields.contains("postoGrad") ? errors.get("postoGrad") : "");
+		
+		labelErrorCelular.setText(fields.contains("celular") ? errors.get("celular") : "");
+		
+		labelErrorLogin.setText(fields.contains("login") ? errors.get("login") : "");
+		
+		labelErrorSenha.setText(fields.contains("senha") ? errors.get("senha") : "");
+		
 	}
 }

@@ -156,9 +156,7 @@ public class EquipamentoFormController implements Initializable {
 	private void setErrorMessages(Map<String,String> errors) {
 		Set<String> fields = errors.keySet();
 		
-		if(fields.contains("nome")) {
-			labelErrorName.setText(errors.get("nome"));
-		}
+		labelErrorName.setText(fields.contains("nome") ? errors.get("nome") : "");
 	}
 
 }

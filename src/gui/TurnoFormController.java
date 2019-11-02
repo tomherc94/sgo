@@ -144,12 +144,8 @@ public class TurnoFormController implements Initializable{
 	private void setErrorMessages(Map<String,String> errors) {
 		Set<String> fields = errors.keySet();
 		
-		if(fields.contains("horaInicio")) {
-			labelErrorHoraInicio.setText(errors.get("horaInicio"));
-		}
+		labelErrorHoraInicio.setText(fields.contains("horaInicio") ? errors.get("horaInicio") : "");
 		
-		if(fields.contains("horaFim")) {
-			labelErrorHoraFim.setText(errors.get("horaFim"));
-		}
+		labelErrorHoraFim.setText(fields.contains("horaFim") ? errors.get("horaFim") : "");
 	}
 }

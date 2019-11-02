@@ -124,6 +124,7 @@ public class EquipamentoListController implements Initializable, DataChangeListe
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
 		}
 	}
