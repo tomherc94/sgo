@@ -21,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.entities.Supervisor;
 import model.entities.enums.PostoGrad;
@@ -56,7 +57,7 @@ public class SupervisorFormController implements Initializable {
 	private TextField txtLogin;
 
 	@FXML
-	private TextField txtSenha;
+	private PasswordField txtSenha;
 
 	@FXML
 	private Label labelErrorName;
@@ -176,6 +177,7 @@ public class SupervisorFormController implements Initializable {
 
 		obsListPostoGrad = FXCollections.observableArrayList(PostoGrad.values());
 		cbPostoGrad.setItems(obsListPostoGrad);
+		
 	}
 
 	private void initializeNodes() {
@@ -197,7 +199,7 @@ public class SupervisorFormController implements Initializable {
 		cbPostoGrad.setValue(entity.getPostoGrad());
 		txtCelular.setText(entity.getCelular());
 		txtLogin.setText(entity.getLogin());
-		txtSenha.setText("");
+		txtSenha.setText(entity.getSenha());
 	}
 	
 	private void setErrorMessages(Map<String,String> errors) {
