@@ -72,14 +72,17 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	}
 
+	@Override
 	public void updateEquipamento() {
 		List<Ocorrencia> list = findByLivroAberto();
 		EquipamentoDao equipamentoDao = DaoFactory.createEquipamentoDao();
 
 		for (Ocorrencia ocorrencia : list) {
 			Equipamento equipamento = equipamentoDao.findById(ocorrencia.getEquipamento().getId());
-			equipamento.setEstadoAtual(ocorrencia.getEstado());
-			equipamentoDao.update(equipamento);
+			if(ocorrencia.getEstado() != Estado.PARA_CONHECIMENTO) {
+				equipamento.setEstadoAtual(ocorrencia.getEstado());
+				equipamentoDao.update(equipamento);
+			}		
 		}
 	}
 
@@ -277,7 +280,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHoraAbertura DESC");
+					"SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
 
 			st.setInt(1, livroAberto.getId());
 

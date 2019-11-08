@@ -4,11 +4,13 @@ import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.LivroDao;
+import model.dao.OcorrenciaDao;
 import model.entities.Livro;
 
 public class LivroService {
 
 	private LivroDao dao = DaoFactory.createLivroDao();
+	private OcorrenciaDao daoOcorrencia = DaoFactory.createOcorrenciaDao();
 
 	public List<Livro> findAll() {
 		return dao.findAll();
@@ -42,6 +44,7 @@ public class LivroService {
 	
 	
 	public void fecharLivro() {
+		daoOcorrencia.updateEquipamento();
 		dao.fecharLivro();
 	}
 }

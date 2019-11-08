@@ -200,6 +200,14 @@ public class OcorrenciaFormController implements Initializable {
 		} else {
 			cbEquipamento.setValue(entity.getEquipamento());
 		}
+		
+		if (entity.getEstado() == null) {
+			cbEstado.getSelectionModel().clearSelection();
+		} else {
+			cbEstado.setValue(entity.getEstado());
+		}
+		
+		
 
 		cbEquipamento.setItems(obsListEquipamento);
 		cbEstado.setItems(obsListEstado);

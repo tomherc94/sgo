@@ -16,6 +16,8 @@ public interface OcorrenciaDao {
 	
 	void deleteByIdLivro(Integer id);
 	
+	void updateEquipamento();
+	
 	Ocorrencia findById(Integer id);
 	
 	List<Ocorrencia> findByDataHora(Date inicio, Date fim);
@@ -27,4 +29,6 @@ public interface OcorrenciaDao {
 	List<Ocorrencia> findAll();
 	
 	List<Ocorrencia> findByLivroAberto();
+	
+	
 }
