@@ -40,6 +40,6 @@ public class OcorrenciaService {
 	}
 	
 	public void remove(Ocorrencia obj) {
-		dao.deleteByIdLivro(obj.getIdLivro());
+		dao.deleteById(obj.getId());
 	}
 }

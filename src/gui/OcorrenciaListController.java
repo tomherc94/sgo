@@ -225,7 +225,12 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 			}
 			try {
 				service.remove(obj);
-				updateTableView(null);
+				if(livroService.confirmaLivroAberto()) {
+					int idLivro = livroService.findLivroAberto().getId();
+					updateTableView(idLivro);
+				}else {
+					updateTableView(null);
+				}
 			} catch (DbException e) {
 				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
 			}

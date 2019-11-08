@@ -154,13 +154,20 @@ public class OcorrenciaFormController implements Initializable {
 			exception.addError("estado", "O campo nao pode ser vazio!");
 		}
 		
+		if (txtDescricao.getText() == null) {
+			exception.addError("descricao", "O campo nao pode ser vazio!");
+			obj.setDescricao(null);
+		}else {
+			obj.setDescricao(new StringBuilder(txtDescricao.getText()));
+		}
+		
+		
+		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
 		obj.setDataHora(sdf.parse(txtDataHora.getText()));
-
-
 		obj.setEstado(cbEstado.getValue());
 		obj.setEquipamento(cbEquipamento.getValue());
-		obj.setDescricao(new StringBuilder(txtDescricao.getText()));
+		//obj.setDescricao(new StringBuilder(txtDescricao.getText()));
 		
 		if (exception.getErrors().size() > 0) {
 			throw exception;
