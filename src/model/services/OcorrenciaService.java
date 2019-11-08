@@ -15,8 +15,8 @@ public class OcorrenciaService {
 		return dao.findAll();
 	}
 	
-	public List<Ocorrencia> findByLivro(Ocorrencia obj) {
-		return dao.findByLivro(obj.getIdLivro());
+	public List<Ocorrencia> findByLivro(Integer idLivro) {
+		return dao.findByLivro(idLivro);
 	}
 	
 	public List<Ocorrencia> findByEquipamento(Ocorrencia obj) {

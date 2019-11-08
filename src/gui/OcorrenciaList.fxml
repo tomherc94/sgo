@@ -39,13 +39,13 @@
       <TableView fx:id="tableViewOcorrencia" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="35.0" text="Id" />
-          <TableColumn fx:id="tableColumnEstado" prefWidth="141.0" text="Estado" />
-            <TableColumn fx:id="tableColumnDataHora" prefWidth="125.0" text="Data/Hora" />
-            <TableColumn fx:id="tableColumnEquipamento" prefWidth="168.0" text="Equipamento" />
+          <TableColumn fx:id="tableColumnEstado" prefWidth="176.0" text="Estado" />
+            <TableColumn fx:id="tableColumnDataHora" prefWidth="111.0" text="Data/Hora" />
+            <TableColumn fx:id="tableColumnEquipamento" prefWidth="158.0" text="Equipamento" />
             <TableColumn fx:id="tableColumnIdLivro" minWidth="0.0" prefWidth="54.0" text="Id Livro" />
-            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="71.0" />
+            <TableColumn fx:id="tableColumnDESCRICAO" prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="67.0" />
             <TableColumn fx:id="tableColumnREMOVE" prefWidth="70.0" />
-            <TableColumn fx:id="tableColumnDESCRICAO" prefWidth="73.0" />
         </columns>
       </TableView>
    </children>

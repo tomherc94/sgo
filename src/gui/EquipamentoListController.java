@@ -137,7 +137,7 @@ public class EquipamentoListController implements Initializable, DataChangeListe
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Equipamento, Equipamento>() {
-			private final Button button = new Button("edit");
+			private final Button button = new Button("editar");
 
 			@Override
 			protected void updateItem(Equipamento obj, boolean empty) {
@@ -156,7 +156,7 @@ public class EquipamentoListController implements Initializable, DataChangeListe
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Equipamento, Equipamento>() {
-			private final Button button = new Button("remove");
+			private final Button button = new Button("remover");
 
 			@Override
 			protected void updateItem(Equipamento obj, boolean empty) {

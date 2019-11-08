@@ -35,6 +35,7 @@ import model.entities.Supervisor;
 import model.entities.Turno;
 import model.entities.enums.StatusLivro;
 import model.services.LivroService;
+import model.services.OcorrenciaService;
 import model.services.SupervisorService;
 import model.services.TurnoService;
 
@@ -71,6 +72,9 @@ public class LivroListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableColumn<Livro, Livro> tableColumnFECHARLIVRO;
+	
+	@FXML
+	private TableColumn<Livro, Livro> tableColumnOCORRENCIAS;
 
 	@FXML
 	private Button btNovo;
@@ -129,6 +133,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 		initEditButtons();
 		initRemoveButtons();
 		initFecharLivroButtons();
+		initOcorrenciasButtons();
 	}
 
 	private void createDialogForm(Livro obj, String absoluteName, Stage parentStage) {
@@ -166,7 +171,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Livro, Livro>() {
-			private final Button button = new Button("edit");
+			private final Button button = new Button("editar");
 
 			@Override
 			protected void updateItem(Livro obj, boolean empty) {
@@ -187,7 +192,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Livro, Livro>() {
-			private final Button button = new Button("remove");
+			private final Button button = new Button("remover");
 
 			@Override
 			protected void updateItem(Livro obj, boolean empty) {
@@ -257,5 +262,28 @@ public class LivroListController implements Initializable, DataChangeListener {
 			}
 
 		}
+	}
+	
+	private void initOcorrenciasButtons() {
+		tableColumnOCORRENCIAS.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnOCORRENCIAS.setCellFactory(param -> new TableCell<Livro, Livro>() {
+			private final Button button = new Button("ocorrências");
+
+			@Override
+			protected void updateItem(Livro obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				MainViewController mainViewController = new MainViewController();
+					setGraphic(button);
+					button.setOnAction(
+							event -> mainViewController.loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
+								controller.setOcorrenciaService(new OcorrenciaService());
+								controller.updateTableView(obj.getId());
+							}));
+			}
+		});
 	}
 }

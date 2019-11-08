@@ -29,7 +29,6 @@
          <children>
             <Label text="Id" />
             <Label text="Nome" GridPane.rowIndex="1" />
-            <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label fx:id="labelErrorName" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
@@ -46,6 +45,7 @@
                   <Insets top="5.0" />
                </padding>
             </HBox>
+            <TextField fx:id="txtId" editable="false" promptText="&lt;automático&gt;" GridPane.columnIndex="1" />
             <Label text="Tipo" GridPane.rowIndex="2" />
             <Label text="Estado atual" GridPane.rowIndex="3" />
             <Label fx:id="labelErrorTipo" layoutX="298.0" layoutY="86.0" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2" />

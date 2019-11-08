@@ -78,7 +78,7 @@ public class MainViewController implements Initializable {
 	public void onMenuItemHistoricoAction() {
 		loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
 			controller.setOcorrenciaService(new OcorrenciaService());
-			controller.updateTableView();
+			controller.updateTableView(null);
 		});
 	}
 
@@ -93,7 +93,7 @@ public class MainViewController implements Initializable {
 
 	}
 
-	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializeAction) {
+	protected synchronized <T> void loadView(String absoluteName, Consumer<T> initializeAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();

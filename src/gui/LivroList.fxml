@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="557.0" prefWidth="875.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LivroListController">
+<VBox prefHeight="581.0" prefWidth="933.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LivroListController">
    <children>
       <Label text="Livro">
          <font>
@@ -43,9 +43,10 @@
             <TableColumn fx:id="tableColumnStatus" prefWidth="93.0" text="Status" />
             <TableColumn fx:id="tableColumnSupervisor" prefWidth="153.0" text="Supervisor" />
             <TableColumn fx:id="tableColumnTurno" prefWidth="147.0" text="Turno" />
-            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="60.0" />
-            <TableColumn fx:id="tableColumnREMOVE" prefWidth="62.0" />
-            <TableColumn fx:id="tableColumnFECHARLIVRO" prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnOCORRENCIAS" prefWidth="87.0" />
+            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="53.0" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="68.0" />
+            <TableColumn fx:id="tableColumnFECHARLIVRO" prefWidth="64.0" />
         </columns>
       </TableView>
    </children>

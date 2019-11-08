@@ -31,12 +31,13 @@
          <children>
             <Label text="Id" />
             <Label text="Equipamento" GridPane.rowIndex="2" />
-            <TextField fx:id="txtId" editable="false" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="1" />
             <Label fx:id="labelErrorEquipamento" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></Label>
+            <ComboBox fx:id="cbEquipamento" prefWidth="150.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbEstado" prefHeight="25.0" prefWidth="151.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextArea fx:id="txtDescricao" prefHeight="90.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
                   <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#onBtSalvarAction" text="Salvar" />
@@ -46,14 +47,13 @@
                   <Insets top="5.0" />
                </padding>
             </HBox>
+            <TextField fx:id="txtId" editable="false" prefHeight="25.0" prefWidth="142.0" promptText="&lt;automático&gt;" GridPane.columnIndex="1" />
+            <TextField fx:id="txtDataHora" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Estado" GridPane.rowIndex="3" />
             <Label fx:id="labelErrorEstado" layoutX="298.0" layoutY="86.0" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Label fx:id="labelErrorDescricao" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Label text="Descrição" GridPane.rowIndex="4" />
-            <TextArea fx:id="txtDescricao" prefHeight="90.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="cbEquipamento" prefWidth="150.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Data/Hora" GridPane.rowIndex="1" />
-            <TextField fx:id="txtDataHora" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

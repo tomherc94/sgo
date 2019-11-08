@@ -33,7 +33,6 @@
          <children>
             <Label text="Id" />
             <Label text="Nome" GridPane.rowIndex="1" />
-            <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtIdentidade" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbPostoGrad" prefHeight="25.0" prefWidth="121.0" promptText="&lt;Selecione&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -50,6 +49,7 @@
                </padding>
             </HBox>
             <Label text="Identidade" GridPane.rowIndex="2" />
+            <TextField fx:id="txtId" editable="false" promptText="&lt;automático&gt;" GridPane.columnIndex="1" />
             <Label text="Posto/Grad" GridPane.rowIndex="3" />
             <Label text="Celular" GridPane.rowIndex="4" />
             <Label text="Login" GridPane.rowIndex="5" />

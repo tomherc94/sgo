@@ -23,7 +23,8 @@ public class Main extends Application {
 			
 			mainScene = new Scene(scrollPane);
 			primaryStage.setScene(mainScene);
-			primaryStage.setTitle("Sistema Gerenciador de Ocorrências");
+			primaryStage.setTitle("Sistema Gerenciador de Ocorrências");			
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

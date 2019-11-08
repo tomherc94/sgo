@@ -111,13 +111,20 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 		tableViewOcorrencia.prefHeightProperty().bind(stage.heightProperty());
 	}
 
-	public void updateTableView() {
+	public void updateTableView(Integer idLivro) {
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
-		List<Ocorrencia> list = service.findAll();
-		obsList = FXCollections.observableArrayList(list);
-		tableViewOcorrencia.setItems(obsList);
+		if(idLivro == null) {
+			List<Ocorrencia> list = service.findAll();
+			obsList = FXCollections.observableArrayList(list);
+			tableViewOcorrencia.setItems(obsList);
+		}else {
+			List<Ocorrencia> list = service.findByLivro(idLivro);
+			obsList = FXCollections.observableArrayList(list);
+			tableViewOcorrencia.setItems(obsList);
+		}
+		
 		initEditButtons();
 		initRemoveButtons();
 		initDescricaoButtons();
@@ -152,13 +159,13 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 
 	@Override
 	public void onDataChanged() {
-		updateTableView();
+		updateTableView(null);
 	}
 
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Ocorrencia, Ocorrencia>() {
-			private final Button button = new Button("edit");
+			private final Button button = new Button("editar");
 
 			@Override
 			protected void updateItem(Ocorrencia obj, boolean empty) {
@@ -183,7 +190,7 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Ocorrencia, Ocorrencia>() {
-			private final Button button = new Button("remove");
+			private final Button button = new Button("remover");
 
 			@Override
 			protected void updateItem(Ocorrencia obj, boolean empty) {
@@ -211,7 +218,7 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 			}
 			try {
 				service.remove(obj);
-				updateTableView();
+				updateTableView(null);
 			} catch (DbException e) {
 				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
 			}
