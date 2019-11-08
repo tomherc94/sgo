@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import app.Main;
-import db.DbIntegrityException;
+import db.DbException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -188,7 +188,7 @@ public class SupervisorListController implements Initializable, DataChangeListen
 			try {
 				service.remove(obj);
 				updateTableView();
-			} catch (DbIntegrityException e) {
+			} catch (DbException e) {
 				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
 			}
 

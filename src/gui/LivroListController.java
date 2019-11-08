@@ -80,7 +80,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		boolean livroAberto = service.findLivroAberto();
+		boolean livroAberto = service.confirmaLivroAberto();
 
 		if (livroAberto == false) {
 			Livro obj = new Livro();

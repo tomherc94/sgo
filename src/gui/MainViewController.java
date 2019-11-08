@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.EquipamentoService;
 import model.services.LivroService;
+import model.services.OcorrenciaService;
 import model.services.SupervisorService;
 import model.services.TurnoService;
 
@@ -75,7 +76,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemHistoricoAction() {
-		System.out.println("onMenuItemHistoricoAction");
+		loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
+			controller.setOcorrenciaService(new OcorrenciaService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
