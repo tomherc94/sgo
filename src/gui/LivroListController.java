@@ -280,7 +280,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 					setGraphic(button);
 					button.setOnAction(
 							event -> mainViewController.loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
-								controller.setOcorrenciaService(new OcorrenciaService());
+								controller.setOcorrenciaService(new OcorrenciaService(), new LivroService());
 								controller.updateTableView(obj.getId());
 							}));
 			}

@@ -77,7 +77,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemHistoricoAction() {
 		loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
-			controller.setOcorrenciaService(new OcorrenciaService());
+			controller.setOcorrenciaService(new OcorrenciaService(), new LivroService());
 			controller.updateTableView(null);
 		});
 	}

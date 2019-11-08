@@ -41,6 +41,8 @@ import model.services.OcorrenciaService;
 public class OcorrenciaListController implements Initializable, DataChangeListener {
 
 	private OcorrenciaService service;
+	
+	private LivroService livroService;
 
 	@FXML
 	private TableView<Ocorrencia> tableViewOcorrencia;
@@ -88,8 +90,9 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 		
 	}
 
-	public void setOcorrenciaService(OcorrenciaService service) {
+	public void setOcorrenciaService(OcorrenciaService service, LivroService livroService) {
 		this.service = service;
+		this.livroService = livroService;
 	}
 
 	@Override
@@ -159,7 +162,13 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 
 	@Override
 	public void onDataChanged() {
-		updateTableView(null);
+		if(livroService.confirmaLivroAberto()) {
+			int idLivro = livroService.findLivroAberto().getId();
+			updateTableView(idLivro);
+		}else {
+			updateTableView(null);
+		}
+		
 	}
 
 	private void initEditButtons() {
@@ -175,7 +184,6 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 					return;
 				}
 
-				LivroService livroService = new LivroService();
 				Livro livroAberto = livroService.findLivroAberto();
 				if (livroAberto != null && obj.getIdLivro() == livroAberto.getId()) {
 					setGraphic(button);
@@ -199,7 +207,6 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 					setGraphic(null);
 					return;
 				}
-				LivroService livroService = new LivroService();
 				Livro livroAberto = livroService.findLivroAberto();
 				if (livroAberto != null && obj.getIdLivro() == livroAberto.getId()) {
 					setGraphic(button);
