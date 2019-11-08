@@ -79,30 +79,28 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 		for (Ocorrencia ocorrencia : list) {
 			Equipamento equipamento = equipamentoDao.findById(ocorrencia.getEquipamento().getId());
-			if(ocorrencia.getEstado() != Estado.PARA_CONHECIMENTO) {
+			if (ocorrencia.getEstado() != Estado.PARA_CONHECIMENTO) {
 				equipamento.setEstadoAtual(ocorrencia.getEstado());
 				equipamentoDao.update(equipamento);
-			}		
+			}
 		}
 	}
 
 	@Override
 	public void update(Ocorrencia obj) {
-		Livro livroAberto = livroDao.findLivroAberto();
 		PreparedStatement st = null;
 		try {
-			if (livroAberto != null && obj.getIdLivro() == livroAberto.getId()) {
-				st = conn.prepareStatement("UPDATE ocorrencia SET estadoOcorrencia = ?, dataHora = ?, "
-						+ "descricao = ?, equipamento_idEquip = ? WHERE idOcor = ?");
 
-				st.setString(1, obj.getEstado().toString());
-				st.setString(2, sdf.format(obj.getDataHora()));
-				st.setString(3, obj.getDescricao().toString());
-				st.setInt(4, obj.getEquipamento().getId());
-				st.setInt(5, obj.getId());
+			st = conn.prepareStatement("UPDATE ocorrencia SET estadoOcorrencia = ?, dataHora = ?, "
+					+ "descricao = ?, equipamento_idEquip = ? WHERE idOcor = ?");
 
-				st.executeUpdate();
-			}
+			st.setString(1, obj.getEstado().toString());
+			st.setString(2, sdf.format(obj.getDataHora()));
+			st.setString(3, obj.getDescricao().toString());
+			st.setInt(4, obj.getEquipamento().getId());
+			st.setInt(5, obj.getId());
+
+			st.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -279,8 +277,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement(
-					"SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
+			st = conn.prepareStatement("SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
 
 			st.setInt(1, livroAberto.getId());
 

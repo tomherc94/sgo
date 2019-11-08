@@ -37,7 +37,7 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemLivro;
 
 	@FXML
-	private MenuItem menuItemHistorico;
+	private MenuItem menuItemOcorrencia;
 
 	@FXML
 	private MenuItem menuItemSobre;
@@ -75,7 +75,7 @@ public class MainViewController implements Initializable {
 	}
 
 	@FXML
-	public void onMenuItemHistoricoAction() {
+	public void onMenuItemOcorrenciaAction() {
 		loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
 			controller.setOcorrenciaService(new OcorrenciaService(), new LivroService());
 			controller.updateTableView(null);

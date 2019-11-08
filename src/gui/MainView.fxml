@@ -22,7 +22,7 @@
                         <MenuItem fx:id="menuItemEquipamento" mnemonicParsing="false" onAction="#onMenuItemEquipamentoAction" text="Equipamento" />
                         <MenuItem fx:id="menuItemTurno" mnemonicParsing="false" onAction="#onMenuItemTurnoAction" text="Turno" />
                         <MenuItem fx:id="menuItemLivro" mnemonicParsing="false" onAction="#onMenuItemLivroAction" text="Livro" />
-                        <MenuItem fx:id="menuItemHistorico" mnemonicParsing="false" onAction="#onMenuItemHistoricoAction" text="Ocorrências" />
+                        <MenuItem fx:id="menuItemOcorrencia" mnemonicParsing="false" onAction="#onMenuItemOcorrenciaAction" text="Ocorrências" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Ajuda">
