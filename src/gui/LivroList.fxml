@@ -23,11 +23,12 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
          <items>
-            <ComboBox prefWidth="150.0" promptText="&lt;Supervisor&gt;" />
-            <DatePicker />
+            <ComboBox fx:id="cbSupervisor" prefWidth="150.0" promptText="&lt;Supervisor&gt;" />
+            <DatePicker fx:id="dpDataInicio" />
             <Label text="a" />
-            <DatePicker />
-            <Button mnemonicParsing="false" text="Buscar" />
+            <DatePicker fx:id="dpDataFim" />
+            <Button fx:id="btBuscar" mnemonicParsing="false" onAction="#onBtBuscarAction" text="Buscar" />
+            <Button fx:id="btTodosLivros" mnemonicParsing="false" onAction="#onBtTodosLivrosAction" text="Todos os livros" />
          </items>
       </ToolBar>
       <ToolBar prefHeight="40.0" prefWidth="200.0">

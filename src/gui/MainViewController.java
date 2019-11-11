@@ -69,7 +69,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemLivroAction() {
 		loadView("/gui/LivroList.fxml", (LivroListController controller) -> {
-			controller.setLivroService(new LivroService());
+			controller.setServices(new LivroService(), new SupervisorService());
 			controller.updateTableView();
 		});
 	}
@@ -111,6 +111,7 @@ public class MainViewController implements Initializable {
 			
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "Erro ao carregar a página", e.getMessage(), AlertType.ERROR);
+			e.printStackTrace();
 		}
 	}
 	

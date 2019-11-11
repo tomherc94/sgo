@@ -1,11 +1,13 @@
 package model.services;
 
+import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.LivroDao;
 import model.dao.OcorrenciaDao;
 import model.entities.Livro;
+import model.entities.Supervisor;
 
 public class LivroService {
 
@@ -14,6 +16,14 @@ public class LivroService {
 
 	public List<Livro> findAll() {
 		return dao.findAll();
+	}
+
+	public List<Livro> findBySupervisor(Supervisor obj) {
+		return dao.findBySupervisor(obj);
+	}
+	
+	public List<Livro> findByDatas(Date inicio, Date fim){
+		return dao.findByDataHoraAbertura(inicio, fim);
 	}
 
 	public void saveOrUpdate(Livro obj) {
@@ -27,22 +37,20 @@ public class LivroService {
 	public void remove() {
 		dao.deleteByStatusAberto();
 	}
-	
+
 	public boolean confirmaLivroAberto() {
 		Livro livroAberto = dao.findLivroAberto();
-		if(livroAberto == null) {
+		if (livroAberto == null) {
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
-	
+
 	public Livro findLivroAberto() {
 		return dao.findLivroAberto();
 	}
-	
-	
-	
+
 	public void fecharLivro() {
 		daoOcorrencia.updateEquipamento();
 		dao.fecharLivro();

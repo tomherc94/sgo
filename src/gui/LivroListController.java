@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,6 +46,8 @@ import model.services.TurnoService;
 public class LivroListController implements Initializable, DataChangeListener {
 
 	private LivroService service;
+
+	private SupervisorService supervisorService;
 
 	@FXML
 	private TableView<Livro> tableViewLivro;
@@ -72,9 +78,26 @@ public class LivroListController implements Initializable, DataChangeListener {
 
 	@FXML
 	private TableColumn<Livro, Livro> tableColumnFECHARLIVRO;
-	
+
 	@FXML
 	private TableColumn<Livro, Livro> tableColumnOCORRENCIAS;
+
+	@FXML
+	private ComboBox<Supervisor> cbSupervisor;
+
+	private ObservableList<Supervisor> obsListSupervisor;
+
+	@FXML
+	private DatePicker dpDataInicio;
+
+	@FXML
+	private DatePicker dpDataFim;
+
+	@FXML
+	private Button btBuscar;
+
+	@FXML
+	private Button btTodosLivros;
 
 	@FXML
 	private Button btNovo;
@@ -98,14 +121,48 @@ public class LivroListController implements Initializable, DataChangeListener {
 
 	}
 
-	public void setLivroService(LivroService service) {
+	@FXML
+	public void onBtBuscarAction(ActionEvent event) {
+
+		Supervisor supervisor;
+		Date dataInicio;
+		Date dataFim;
+
+		if (cbSupervisor.getValue() != null) {
+			supervisor = cbSupervisor.getValue();
+		} else {
+			supervisor = null;
+		}
+
+		if (dpDataInicio.getValue() != null && dpDataFim.getValue() != null) {
+			dataInicio = Date.from(dpDataInicio.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+			dataFim = Date.from(dpDataFim.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+			if (dataInicio.after(dataFim)) {
+				Alerts.showAlert("Erro ao buscar livros", null, "Data final menor que a inicial!", AlertType.ERROR);
+				throw new RuntimeException();
+			}
+		} else {
+			dataInicio = null;
+			dataFim = null;
+		}
+		updateTableViewBusca(supervisor, dataInicio, dataFim);
+		dpDataInicio.setValue(null);
+		dpDataFim.setValue(null);
+	}
+
+	@FXML
+	public void onBtTodosLivrosAction(ActionEvent event) {
+		updateTableView();
+	}
+
+	public void setServices(LivroService service, SupervisorService supervisorService) {
 		this.service = service;
+		this.supervisorService = supervisorService;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNode();
-
 	}
 
 	// padrao para iniciar o comportamento das colunas
@@ -130,6 +187,65 @@ public class LivroListController implements Initializable, DataChangeListener {
 		List<Livro> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewLivro.setItems(obsList);
+
+		List<Supervisor> listSupervisores = supervisorService.findAll();
+
+		obsListSupervisor = FXCollections.observableArrayList(listSupervisores);
+		cbSupervisor.setItems(obsListSupervisor);
+
+		initEditButtons();
+		initRemoveButtons();
+		initFecharLivroButtons();
+		initOcorrenciasButtons();
+	}
+
+	public void updateTableViewBusca(Supervisor supervisor, Date dataInicio, Date dataFim) {
+		if (service == null) {
+			throw new IllegalStateException("Service was null");
+		}
+		
+		if(supervisor== null && (dataInicio == null || dataFim == null)){
+			Alerts.showAlert("Erro ao buscar por data", null, "O periódo não foi selecionado!", AlertType.ERROR);
+			throw new IllegalStateException("Falha ao buscar por data!");
+			
+		}
+		
+		if(supervisor != null && dataInicio == null && dataFim == null) {
+			List<Livro> list = service.findBySupervisor(supervisor);
+			obsList = FXCollections.observableArrayList(list);
+			tableViewLivro.setItems(obsList);
+		}
+		
+		if(supervisor == null && dataInicio != null && dataFim != null) {
+			List<Livro> list = service.findByDatas(dataInicio, dataFim);
+			obsList = FXCollections.observableArrayList(list);
+			tableViewLivro.setItems(obsList);
+		}
+		
+		if(supervisor != null && (dataInicio != null && dataFim != null)) {
+			List<Livro> listBySupervisor = service.findBySupervisor(supervisor);
+			List<Livro> listByDatas = service.findByDatas(dataInicio, dataFim);
+			
+			List<Livro> result = new ArrayList<>();
+			
+			for(Livro livro : listBySupervisor) {
+				if(listByDatas.contains(livro)) {
+					result.add(livro);
+				}
+			}
+			
+			
+			obsList = FXCollections.observableArrayList(result);
+			tableViewLivro.setItems(obsList);
+		}
+		
+		
+		
+		
+
+		
+
+
 		initEditButtons();
 		initRemoveButtons();
 		initFecharLivroButtons();
@@ -263,7 +379,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 
 		}
 	}
-	
+
 	private void initOcorrenciasButtons() {
 		tableColumnOCORRENCIAS.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnOCORRENCIAS.setCellFactory(param -> new TableCell<Livro, Livro>() {
@@ -277,12 +393,12 @@ public class LivroListController implements Initializable, DataChangeListener {
 					return;
 				}
 				MainViewController mainViewController = new MainViewController();
-					setGraphic(button);
-					button.setOnAction(
-							event -> mainViewController.loadView("/gui/OcorrenciaList.fxml", (OcorrenciaListController controller) -> {
-								controller.setOcorrenciaService(new OcorrenciaService(), new LivroService());
-								controller.updateTableView(obj.getId());
-							}));
+				setGraphic(button);
+				button.setOnAction(event -> mainViewController.loadView("/gui/OcorrenciaList.fxml",
+						(OcorrenciaListController controller) -> {
+							controller.setOcorrenciaService(new OcorrenciaService(), new LivroService());
+							controller.updateTableView(obj.getId());
+						}));
 			}
 		});
 	}
