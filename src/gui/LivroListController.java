@@ -148,6 +148,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 		updateTableViewBusca(supervisor, dataInicio, dataFim);
 		dpDataInicio.setValue(null);
 		dpDataFim.setValue(null);
+		cbSupervisor.setValue(supervisor);
 	}
 
 	@FXML

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -162,6 +163,12 @@ public class LivroDaoJDBC implements LivroDao {
 	@Override
 	public List<Livro> findByDataHoraAbertura(Date inicio, Date fim) {
 
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fim);
+		cal.add(Calendar.DATE, 1);
+		
+		fim = cal.getTime();
+		
 		List<Livro> all = findAll();
 		List<Livro> result = new ArrayList<>();
 
