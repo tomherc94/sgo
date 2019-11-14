@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.OcorrenciaDao;
+import model.entities.Equipamento;
 import model.entities.Ocorrencia;
 
 public class OcorrenciaService {
@@ -19,11 +20,11 @@ public class OcorrenciaService {
 		return dao.findByLivro(idLivro);
 	}
 	
-	public List<Ocorrencia> findByEquipamento(Ocorrencia obj) {
-		return dao.findByEquipamento(obj.getEquipamento());
+	public List<Ocorrencia> findByEquipamento(Equipamento obj) {
+		return dao.findByEquipamento(obj);
 	}
 	
-	public List<Ocorrencia> findByDataHora(Date inicio, Date fim) {
+	public List<Ocorrencia> findByDatas(Date inicio, Date fim) {
 		return dao.findByDataHora(inicio, fim);
 	}
 	

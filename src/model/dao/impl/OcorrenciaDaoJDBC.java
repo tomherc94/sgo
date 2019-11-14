@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -171,6 +172,13 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 
 	@Override
 	public List<Ocorrencia> findByDataHora(Date inicio, Date fim) {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fim);
+		cal.add(Calendar.DATE, 1);
+		
+		fim = cal.getTime();		
+		
 		List<Ocorrencia> all = findAll();
 		List<Ocorrencia> result = new ArrayList<>();
 

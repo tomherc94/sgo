@@ -38,6 +38,7 @@ import model.entities.Livro;
 import model.entities.Supervisor;
 import model.entities.Turno;
 import model.entities.enums.StatusLivro;
+import model.services.EquipamentoService;
 import model.services.LivroService;
 import model.services.OcorrenciaService;
 import model.services.SupervisorService;
@@ -148,7 +149,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 		updateTableViewBusca(supervisor, dataInicio, dataFim);
 		dpDataInicio.setValue(null);
 		dpDataFim.setValue(null);
-		cbSupervisor.setValue(supervisor);
+		cbSupervisor.setValue(null);
 	}
 
 	@FXML
@@ -204,48 +205,40 @@ public class LivroListController implements Initializable, DataChangeListener {
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
-		
-		if(supervisor== null && (dataInicio == null || dataFim == null)){
+
+		if (supervisor == null && (dataInicio == null || dataFim == null)) {
 			Alerts.showAlert("Erro ao buscar por data", null, "O periódo não foi selecionado!", AlertType.ERROR);
 			throw new IllegalStateException("Falha ao buscar por data!");
-			
+
 		}
-		
-		if(supervisor != null && dataInicio == null && dataFim == null) {
+
+		if (supervisor != null && dataInicio == null && dataFim == null) {
 			List<Livro> list = service.findBySupervisor(supervisor);
 			obsList = FXCollections.observableArrayList(list);
 			tableViewLivro.setItems(obsList);
 		}
-		
-		if(supervisor == null && dataInicio != null && dataFim != null) {
+
+		if (supervisor == null && dataInicio != null && dataFim != null) {
 			List<Livro> list = service.findByDatas(dataInicio, dataFim);
 			obsList = FXCollections.observableArrayList(list);
 			tableViewLivro.setItems(obsList);
 		}
-		
-		if(supervisor != null && (dataInicio != null && dataFim != null)) {
+
+		if (supervisor != null && (dataInicio != null && dataFim != null)) {
 			List<Livro> listBySupervisor = service.findBySupervisor(supervisor);
 			List<Livro> listByDatas = service.findByDatas(dataInicio, dataFim);
-			
+
 			List<Livro> result = new ArrayList<>();
-			
-			for(Livro livro : listBySupervisor) {
-				if(listByDatas.contains(livro)) {
+
+			for (Livro livro : listBySupervisor) {
+				if (listByDatas.contains(livro)) {
 					result.add(livro);
 				}
 			}
-			
-			
+
 			obsList = FXCollections.observableArrayList(result);
 			tableViewLivro.setItems(obsList);
 		}
-		
-		
-		
-		
-
-		
-
 
 		initEditButtons();
 		initRemoveButtons();
@@ -397,7 +390,7 @@ public class LivroListController implements Initializable, DataChangeListener {
 				setGraphic(button);
 				button.setOnAction(event -> mainViewController.loadView("/gui/OcorrenciaList.fxml",
 						(OcorrenciaListController controller) -> {
-							controller.setOcorrenciaService(new OcorrenciaService(), new LivroService());
+							controller.setOcorrenciaService(new OcorrenciaService(), new LivroService(), new EquipamentoService());
 							controller.updateTableView(obj.getId());
 						}));
 			}

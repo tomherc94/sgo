@@ -2,6 +2,8 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,6 +47,8 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 	private OcorrenciaService service;
 	
 	private LivroService livroService;
+	
+	private EquipamentoService equipamentoService;
 
 	@FXML
 	private TableView<Ocorrencia> tableViewOcorrencia;
@@ -70,12 +76,111 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 
 	@FXML
 	private TableColumn<Ocorrencia, Ocorrencia> tableColumnDESCRICAO;
+	
+	@FXML
+	private ComboBox<Equipamento> cbEquipamento;
+
+	private ObservableList<Equipamento> obsListEquipamento;
+
+	@FXML
+	private DatePicker dpDataInicio;
+
+	@FXML
+	private DatePicker dpDataFim;
+
+	@FXML
+	private Button btBuscar;
+
+	@FXML
+	private Button btTodasOcorrencias;
 
 	@FXML
 	private Button btNovo;
 
 	private ObservableList<Ocorrencia> obsList;
 
+	@FXML
+	public void onBtBuscarAction(ActionEvent event) {
+
+		Equipamento equipamento;
+		Date dataInicio;
+		Date dataFim;
+
+		if (cbEquipamento.getValue() != null) {
+			equipamento = cbEquipamento.getValue();
+		} else {
+			equipamento = null;
+		}
+
+		if (dpDataInicio.getValue() != null && dpDataFim.getValue() != null) {
+			dataInicio = Date.from(dpDataInicio.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+			dataFim = Date.from(dpDataFim.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+			if (dataInicio.after(dataFim)) {
+				Alerts.showAlert("Erro ao buscar ocorrências", null, "Data final menor que a inicial!", AlertType.ERROR);
+				throw new RuntimeException();
+			}
+		} else {
+			dataInicio = null;
+			dataFim = null;
+		}
+		updateTableViewBusca(equipamento, dataInicio, dataFim);
+		dpDataInicio.setValue(null);
+		dpDataFim.setValue(null);
+		cbEquipamento.setValue(null);
+	}
+
+	@FXML
+	public void onBtTodasOcorrenciasAction(ActionEvent event) {
+		updateTableView(null);
+	}
+	
+	public void updateTableViewBusca(Equipamento equipamento, Date dataInicio, Date dataFim) {
+		if (service == null) {
+			throw new IllegalStateException("Service was null");
+		}
+		
+		if(equipamento== null && (dataInicio == null || dataFim == null)){
+			Alerts.showAlert("Erro ao buscar por data", null, "O periódo não foi selecionado!", AlertType.ERROR);
+			throw new IllegalStateException("Falha ao buscar por data!");
+			
+		}
+		
+		if(equipamento != null && dataInicio == null && dataFim == null) {
+			List<Ocorrencia> list = service.findByEquipamento(equipamento);
+			obsList = FXCollections.observableArrayList(list);
+			tableViewOcorrencia.setItems(obsList);
+		}
+		
+		if(equipamento == null && dataInicio != null && dataFim != null) {
+			List<Ocorrencia> list = service.findByDatas(dataInicio, dataFim);
+			obsList = FXCollections.observableArrayList(list);
+			tableViewOcorrencia.setItems(obsList);
+		}
+		
+		if(equipamento != null && (dataInicio != null && dataFim != null)) {
+			List<Ocorrencia> listByEquipamento = service.findByEquipamento(equipamento);
+			List<Ocorrencia> listByDatas = service.findByDatas(dataInicio, dataFim);
+			
+			List<Ocorrencia> result = new ArrayList<>();
+			
+			for(Ocorrencia ocorrencia : listByDatas) {
+				if(listByEquipamento.contains(ocorrencia)) {
+					result.add(ocorrencia);
+				}
+			}
+			
+			
+			obsList = FXCollections.observableArrayList(result);
+			tableViewOcorrencia.setItems(obsList);
+		}
+
+		initEditButtons();
+		initRemoveButtons();
+		initDescricaoButtons();
+	}
+	
+	
+	
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
 		LivroService livroService = new LivroService();
@@ -90,9 +195,10 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 		
 	}
 
-	public void setOcorrenciaService(OcorrenciaService service, LivroService livroService) {
+	public void setOcorrenciaService(OcorrenciaService service, LivroService livroService, EquipamentoService equipamentoService) {
 		this.service = service;
 		this.livroService = livroService;
+		this.equipamentoService = equipamentoService;
 	}
 
 	@Override
@@ -118,6 +224,12 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
+		
+		List<Equipamento> listEquipamento = equipamentoService.findAll();
+		
+		obsListEquipamento = FXCollections.observableArrayList(listEquipamento);
+		cbEquipamento.setItems(obsListEquipamento);
+		
 		if(idLivro == null) {
 			List<Ocorrencia> list = service.findAll();
 			obsList = FXCollections.observableArrayList(list);
@@ -127,6 +239,8 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 			obsList = FXCollections.observableArrayList(list);
 			tableViewOcorrencia.setItems(obsList);
 		}
+		
+		
 		
 		initEditButtons();
 		initRemoveButtons();
