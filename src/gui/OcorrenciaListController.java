@@ -303,6 +303,8 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 					setGraphic(button);
 					button.setOnAction(
 							event -> createDialogForm(obj, "/gui/OcorrenciaForm.fxml", Utils.currentStage(event)));
+				}else {
+					setGraphic(null);
 				}
 			}
 		});
@@ -325,6 +327,8 @@ public class OcorrenciaListController implements Initializable, DataChangeListen
 				if (livroAberto != null && obj.getIdLivro() == livroAberto.getId()) {
 					setGraphic(button);
 					button.setOnAction(event -> removeEntity(obj));
+				}else {
+					setGraphic(null);
 				}
 			}
 		});

@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import app.Main;
 import db.DbException;
-import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;

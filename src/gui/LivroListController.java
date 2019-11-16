@@ -294,6 +294,8 @@ public class LivroListController implements Initializable, DataChangeListener {
 					setGraphic(button);
 					button.setOnAction(
 							event -> createDialogForm(obj, "/gui/LivroForm.fxml", Utils.currentStage(event)));
+				}else {
+					setGraphic(null);
 				}
 			}
 		});
@@ -314,6 +316,8 @@ public class LivroListController implements Initializable, DataChangeListener {
 				if (obj.getStatus() == StatusLivro.ABERTO) {
 					setGraphic(button);
 					button.setOnAction(event -> removeEntity());
+				}else {
+					setGraphic(null);
 				}
 			}
 		});
@@ -352,6 +356,8 @@ public class LivroListController implements Initializable, DataChangeListener {
 				if (obj.getStatus() == StatusLivro.ABERTO) {
 					setGraphic(button);
 					button.setOnAction(event -> fecharEntity());
+				}else {
+					setGraphic(null);
 				}
 			}
 		});
