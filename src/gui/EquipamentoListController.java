@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import app.Main;
+import db.DbException;
 import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
@@ -181,7 +182,7 @@ public class EquipamentoListController implements Initializable, DataChangeListe
 			try {
 				service.remove(obj);
 				updateTableView();
-			} catch (DbIntegrityException e) {
+			} catch (DbException e) {
 				Alerts.showAlert("Erro ao remover", null, e.getMessage(), AlertType.ERROR);
 			}
 

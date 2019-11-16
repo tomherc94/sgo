@@ -285,7 +285,7 @@ public class OcorrenciaDaoJDBC implements OcorrenciaDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora DESC");
+			st = conn.prepareStatement("SELECT * FROM ocorrencia WHERE livro_idLivro = ? ORDER BY dataHora ASC");
 
 			st.setInt(1, livroAberto.getId());
 
